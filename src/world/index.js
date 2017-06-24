@@ -19,6 +19,7 @@ export default class World extends React.Component {
 
         this.screenDimensions = {};
         this.cameraBarrierPoints = {};
+        this.mapStartPoints = {};
 
         this.setVisibleMap = this.setVisibleMap.bind(this);
         this.setScreenDimensions = this.setScreenDimensions.bind(this);
@@ -39,20 +40,17 @@ export default class World extends React.Component {
     }
 
     getRelativePosition({x, y}) {
-
-        let mapStartPoints = {
-            x: (this.state.cameraFocusPoint.x - this.screenDimensions.radius),
-            y: (this.state.cameraFocusPoint.y - this.screenDimensions.radius),
-        };
-
-        //TODO: BOUNDARY VALUE VALIDATIONS
         return {
-            x: x - mapStartPoints.x,
-            y: y - mapStartPoints.y
+            x: x - this.mapStartPoints.x,
+            y: y - this.mapStartPoints.y
         };
     }
 
     setPlayerPosition({x, y}) {
+        //BOUNDARY LIMIT VALIDATION
+        if (x < 0 || x > (this.props.worldMap[0].length - 1) || y < 0 || y > (this.props.worldMap.length - 1)) {
+            return false
+        }
         let position = {
             x: x,
             y: y
@@ -103,7 +101,6 @@ export default class World extends React.Component {
                     return;
                     break;
             }
-            console.log(playerPosition)
             this.setPlayerPosition(playerPosition);
         }
     }
@@ -125,12 +122,12 @@ export default class World extends React.Component {
     }
 
     setVisibleMap() {
-        let mapStartPoints = {
+        this.mapStartPoints = {
             x: (this.state.cameraFocusPoint.x - this.screenDimensions.radius),
             y: (this.state.cameraFocusPoint.y - this.screenDimensions.radius),
         };
-        this.state.visibleTileMap = this.props.worldMap.slice(mapStartPoints.y, (mapStartPoints.y + this.screenDimensions.size)).map((row) => {
-            return row.slice(mapStartPoints.x, (mapStartPoints.x + this.screenDimensions.size));
+        this.state.visibleTileMap = this.props.worldMap.slice(this.mapStartPoints.y, (this.mapStartPoints.y + this.screenDimensions.size)).map((row) => {
+            return row.slice(this.mapStartPoints.x, (this.mapStartPoints.x + this.screenDimensions.size));
         });
         this.setState({
             visibleTileMap: this.state.visibleTileMap
