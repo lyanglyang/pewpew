@@ -1,6 +1,4 @@
 import React from 'react';
-
-//constants
 import GLOBAL from '../constants';
 
 
@@ -9,7 +7,9 @@ export default class Frog extends React.Component {
   getCellStyle = ()=> {
     return {
       left: GLOBAL.CELL_SIZE * this.props.position.x,
-      top: GLOBAL.CELL_SIZE * this.props.position.y
+      top: GLOBAL.CELL_SIZE * this.props.position.y,
+      height: (GLOBAL.CELL_SIZE/2),
+      width: (GLOBAL.CELL_SIZE/2)
     }
   };
 

@@ -53,7 +53,7 @@ export default class World extends React.Component {
   };
 
   componentDidMount() {
-    this.setScreenDimensions({size: 16});
+    this.setScreenDimensions({size: 5});
     this.setKeyBindings();
     let startingPlayerPosition = {
       x: 2,
@@ -106,19 +106,19 @@ export default class World extends React.Component {
       let playerPosition = Object.assign({}, this.state.player.position);
       switch (e.which || e.keyCode) {
         case 37:
-          playerPosition.x -= 1;
+          playerPosition.x -= 0.5;
           break;
 
         case 39:
-          playerPosition.x += 1;
+          playerPosition.x += 0.5;
           break;
 
         case 38:
-          playerPosition.y -= 1;
+          playerPosition.y -= 0.5;
           break;
 
         case 40:
-          playerPosition.y += 1;
+          playerPosition.y += 0.5;
           break;
 
         default:
@@ -171,10 +171,10 @@ export default class World extends React.Component {
       <div className="world-container">
         <TileMap tileMap={this.state.visibleTileMap}/>
         <Frog position={this.state.player.relativePosition} fireBullet={this.fireBullet.bind(this)}/>
-        {this.state.opponents.map((position, index) =>
-          <Opponents key={index} updatePosition= {this.updatePosition}
-                     index={index} position={this.getRelativePosition(position)}/>)
-        }
+        {/*{this.state.opponents.map((position, index) =>*/}
+          {/*<Opponents key={index} updatePosition= {this.updatePosition}*/}
+                     {/*index={index} position={this.getRelativePosition(position)}/>)*/}
+        {/*}*/}
         {this.state.bulletFired ? <Bullet position={this.state.player.relativePosition} killBullet={this.killBullet.bind(this)}/> : null}
       </div>
     )

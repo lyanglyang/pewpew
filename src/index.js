@@ -14,9 +14,9 @@ class Main extends React.Component {
   constructor(){
     super();
     this.state = {
-      userActive: false,
+      userActive: true,
       gameOver: false,
-      userName: ''
+      userName: 'sudhir'
     }
   }
 
