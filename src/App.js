@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import backand from '@backand/vanilla-sdk'
 import World from './world';
-
+import axios from 'axios'
 //constants
 import GLOBAL from './constants';
 
@@ -63,16 +63,21 @@ getAudioPermission.then(function (stream) {
   }
 });
 
+const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 //backand code
 backand.init({
   appName: 'pewpew',
-  anonymousToken: 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be',
+  anonymousToken: ANONYMOUS_TOKEN,
   runSocket: true,
 });
 
+axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
+
+//send request to backand
+axios.get('https://api.backand.com/1/function/general/game');
+
 backand.on('items_updated', function (data) {
   console.log('items_updated');
-  alert("Dfa")
   console.log(data);
 });
 
