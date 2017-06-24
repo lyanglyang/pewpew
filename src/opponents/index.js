@@ -1,5 +1,8 @@
 import React from 'react';
 
+//constants
+import GLOBAL from '../constants';
+
 export default class Opponent extends React.Component {
 
   componentDidMount(){
@@ -12,17 +15,16 @@ export default class Opponent extends React.Component {
 
   getCellStyle = () =>{
     let {x, y} = this.props.position,
-      cellSize = 20,
       display = "inline-block";
     if (x > 20 || y > 20){
       display = "none";
     }
     return {
-      left: cellSize * x,
-      top: cellSize * y,
+      left: GLOBAL.CELL_SIZE * x,
+      top: GLOBAL.CELL_SIZE * y,
       display
     }
-  }
+  };
 
   render() {
     return (
