@@ -1,6 +1,7 @@
 import React from 'react';
 import TileMap from '../tile-map';
 import Frog from '../common/frog';
+import Bullet from '../common/bullet';
 
 export default class World extends React.Component {
 
@@ -10,6 +11,8 @@ export default class World extends React.Component {
     this.state = {
       visibleTileMap: [],
       cameraFocusPoint: {},
+
+      bulletFired: false,
 
       player: {
         relativePosition: {},
@@ -134,11 +137,16 @@ export default class World extends React.Component {
     });
   }
 
+  fireBullet(){
+    this.setState({bulletFired: true})
+  }
+
   render() {
     return (
       <div className="world-container">
         <TileMap tileMap={this.state.visibleTileMap}/>
-        <Frog position={this.state.player.relativePosition}/>
+        <Frog position={this.state.player.relativePosition} fireBullet={this.fireBullet.bind(this)}/>
+        {this.state.bulletFired ? <Bullet position={this.state.player.relativePosition}/> : null}
       </div>
     )
   }
