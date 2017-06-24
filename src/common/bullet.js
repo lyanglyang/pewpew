@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
+import GLOBAL from '../constants';
 
 class Bullet extends Component {
   constructor(props, context) {
     super(props, context);
-    this.cellSize = 20;
     this.intervalHolder = '';
     this.state = {
       text: 1
@@ -20,7 +20,7 @@ class Bullet extends Component {
   }
 
   fire() {
-    this.setState({text:1, left: (this.props.position.x + 1) * this.cellSize});
+    this.setState({text:1, left: (this.props.position.x + 1) * GLOBAL.CELL_SIZE});
     this.intervalHolder = setInterval(this.changePos, 200);
   }
 
@@ -38,13 +38,13 @@ class Bullet extends Component {
     if (newText === 4) {
       this.destroy();
     }
-    this.setState({text: newText, left: this.state.left + this.cellSize})
+    this.setState({text: newText, left: this.state.left + GLOBAL.CELL_SIZE})
   }
 
   getCellStyle() {
     return {
       left: this.state.left,
-      top: this.cellSize * this.props.position.y
+      top: GLOBAL.CELL_SIZE * this.props.position.y
     }
   }
 

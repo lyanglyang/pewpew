@@ -1,20 +1,17 @@
 import React from 'react';
 
+
+//constants
+import GLOBAL from '../constants';
+
 export default class Frog extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-    this.cellSize = 20;
-
-    this.getCellStyle = this.getCellStyle.bind(this);
-  }
-
-  getCellStyle() {
+  getCellStyle = ()=> {
     return {
-      left: this.cellSize * this.props.position.x,
-      top: this.cellSize * this.props.position.y
+      left: GLOBAL.CELL_SIZE * this.props.position.x,
+      top: GLOBAL.CELL_SIZE * this.props.position.y
     }
-  }
+  };
 
   render() {
     return (

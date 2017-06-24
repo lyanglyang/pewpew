@@ -1,7 +1,9 @@
 import React from 'react';
+
 import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Bullet from '../common/bullet';
+import Opponents from '../opponents';
 
 export default class World extends React.Component {
 
@@ -17,7 +19,14 @@ export default class World extends React.Component {
       player: {
         relativePosition: {},
         position: {}
-      }
+      },
+
+      opponents: [
+        {x: 1, y:1},
+        {x: 3, y:3},
+        {x: 5, y:5}
+      ]
+
     };
 
     this.screenDimensions = {};
@@ -30,6 +39,18 @@ export default class World extends React.Component {
     this.setKeyBindings = this.setKeyBindings.bind(this);
     this.setPlayerPosition = this.setPlayerPosition.bind(this);
   }
+
+  updatePosition = (index) =>{
+    var cloneState = Object.assign({}, this.state);
+    cloneState.opponents = cloneState.opponents.slice();
+    cloneState.opponents[index] = Object.assign({}, cloneState.opponents[index]);
+    if (cloneState.opponents[index].y > 20){
+      cloneState.opponents[index].x += 1;
+    }else{
+      cloneState.opponents[index].y += 1;
+    }
+    this.setState(cloneState);
+  };
 
   componentDidMount() {
     this.setScreenDimensions({size: 21});
@@ -44,8 +65,8 @@ export default class World extends React.Component {
 
   getRelativePosition({x, y}) {
     return {
-      x: x - this.mapStartPoints.x,
-      y: y - this.mapStartPoints.y
+      x: x - this.mapStartPoints.x || 0,
+      y: y - this.mapStartPoints.y || 0
     };
   }
 
@@ -150,6 +171,10 @@ export default class World extends React.Component {
       <div className="world-container">
         <TileMap tileMap={this.state.visibleTileMap}/>
         <Frog position={this.state.player.relativePosition} fireBullet={this.fireBullet.bind(this)}/>
+        {this.state.opponents.map((position, index) =>
+          <Opponents key={index} updatePosition= {this.updatePosition}
+                     index={index} position={this.getRelativePosition(position)}/>)
+        }
         {this.state.bulletFired ? <Bullet position={this.state.player.relativePosition} killBullet={this.killBullet.bind(this)}/> : null}
       </div>
     )
