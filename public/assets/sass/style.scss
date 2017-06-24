@@ -1,3 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  &:after{
+    content:"";
+    clear: both;
+    display: block;
+  }
+}
 .world-container {
   position: relative;
 }
@@ -8,21 +18,33 @@
 
 .tile-map-cell {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 120px;
+  height: 120px;
 }
-
+.block-5{
+  text-indent: -9999px;
+  background: url('/assets/images/camp.png') no-repeat;
+}
+.block-6{
+  text-indent: -9999px;
+  background: url('/assets/images/windmill.png') no-repeat;
+}
 .block-1 {
-  background: black;
+  text-indent: -9999px;
+  background: url('/assets/images/green-carpet.png') no-repeat;
 }
-
+.block-3{
+  text-indent: -9999px;
+  background: url('/assets/images/lush-forest.png') no-repeat;
+}
 .block-2 {
-  background: gray;
+  text-indent: -9999px;
+  background: url('/assets/images/dense-forest.png') no-repeat;
 }
 
 .frog {
-  width: 20px;
-  height: 20px;
+  width: 120px;
+  height: 120px;
   position: absolute;
   background: green;
 }

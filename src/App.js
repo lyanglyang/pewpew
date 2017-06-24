@@ -62,7 +62,6 @@ getAudioPermission.then(function (stream) {
   }
 });
 
-
 class App extends Component {
 
     render() {
