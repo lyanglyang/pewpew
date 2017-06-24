@@ -2,7 +2,6 @@ import React from 'react';
 
 import TileMap from '../tile-map';
 import Frog from '../common/frog';
-import Bullet from '../common/bullet';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
 
@@ -214,8 +213,6 @@ export default class World extends React.Component {
           <Opponents key={index} updatePosition={this.updatePosition}
                      index={index} position={this.getRelativePosition(position)}/>)
         }
-        {/*{this.state.bulletFired ?*/}
-          {/*<Bullet position={this.state.player.relativePosition} killBullet={this.killBullet.bind(this)}/> : null}*/}
       </div>
     )
   }

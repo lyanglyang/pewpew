@@ -24,33 +24,21 @@ export default class Frog extends React.Component {
 
   pewpew() {
     let swordDirections = {
-      1: {
-        left: -1, top: 0
-      },
-      2: {
-        left: 1,
-        top: 0
-      },
-      3: {
-        left: 0,
-        top: -1
-      },
-      4: {
-        left: 0,
-        top: 1
-      }
-    };
-    this.state.swordTarget = {
-      active: true,
-      left: (swordDirections[this.movingDirection]['left']) * (GLOBAL.CELL_SIZE / 4),
-      top: (swordDirections[this.movingDirection]['top']) * (GLOBAL.CELL_SIZE / 4),
+      1: {left: -1, top: 0},
+      2: {left: 1, top: 0},
+      3: {left: 0, top: -1},
+      4: {left: 0, top: 1}
     };
     this.setState({
-      swordTarget: this.state.swordTarget
+      swordTarget: {
+        active: true,
+        left: (swordDirections[this.movingDirection]['left']) * (GLOBAL.CELL_SIZE / 4),
+        top: (swordDirections[this.movingDirection]['top']) * (GLOBAL.CELL_SIZE / 4),
+      }
     });
     this.props.pewpew({
-      x: this.props.player.position.x + (swordDirections[this.movingDirection]['left']/4),
-      y: this.props.player.position.y + (swordDirections[this.movingDirection]['top']/4)
+      x: this.props.player.position.x + (swordDirections[this.movingDirection]['left'] / 4),
+      y: this.props.player.position.y + (swordDirections[this.movingDirection]['top'] / 4)
     });
     setTimeout(() => {
       this.state.swordTarget.active = false;
@@ -118,7 +106,6 @@ export default class Frog extends React.Component {
   render() {
     return (
       <div className="frog" style={this.getCellStyle()}>
-
         {
           (this.state.swordTarget.active) ?
             <div className="sword-action-wrapper">
