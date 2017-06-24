@@ -67,6 +67,7 @@ class App extends Component {
     render() {
         return (
             <div>
+                User: {this.props.userName}
                 <World worldMap={GLOBAL.GAME_WORLD}/>
             </div>
         );
