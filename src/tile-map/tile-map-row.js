@@ -14,6 +14,7 @@ export default class TileMapRow extends React.Component {
                     this.props.row.map((d, index) => {
                         return (
                             <td key={index} className={`tile-map-row block-${d}`}>
+                                {d}
                             </td>
                         )
                     })
