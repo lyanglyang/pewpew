@@ -1,12 +1,28 @@
+.world-container {
+  position: relative;
+}
+
 .tile-map {
 
 }
 
-.tile-map-row {
-  width: 50px;
-  height: 50px;
+.tile-map-cell {
+  position: absolute;
+  width: 20px;
+  height: 20px;
 }
 
-.tile-map-row.block-1 {
+.block-1 {
   background: black;
+}
+
+.block-2 {
+  background: gray;
+}
+
+.frog {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  background: green;
 }

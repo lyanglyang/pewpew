@@ -9,16 +9,16 @@ export default class TileMap extends React.Component {
 
     render() {
         return (
-            <table className="tile-map">
-                <tbody>
+            <div className="tile-map">
                 {
                     this.props.tileMap.map((tm, index) => {
                         return (
-                            <TileMapRow row={tm} key={index}/>
+                            <TileMapRow key={index}
+                                        row={tm}
+                                        rowIndex={index}/>
                         )
                     })
                 }
-                </tbody>
-            </table>)
+            </div>)
     }
 }
