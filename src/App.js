@@ -67,12 +67,22 @@ const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 //backand code
 backand.init({
   appName: 'pewpew',
+  signUpToken: "cf706c34-ce4b-45f1-80c0-2a517fef995b",
   anonymousToken: ANONYMOUS_TOKEN,
   runSocket: true,
 });
 
+backand.signup(`guest${new Date().getTime()}`, "user", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
+  .then(res => {
+    console.log(res.data);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
+console.log(backand.user)
 //send request to backand
 axios.get('https://api.backand.com/1/function/general/game');
 
