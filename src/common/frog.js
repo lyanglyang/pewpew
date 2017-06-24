@@ -15,7 +15,7 @@ export default class Frog extends React.Component {
 
   render() {
     return (
-      <div className="frog" style={this.getCellStyle()}>
+      <div className="frog" style={this.getCellStyle()} onClick={this.props.fireBullet}>
         F
       </div>)
   }
