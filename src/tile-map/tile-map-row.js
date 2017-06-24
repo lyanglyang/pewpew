@@ -5,7 +5,7 @@ export default class TileMapRow extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
-    this.cellSize = 20;
+    this.cellSize = 120;
     this.getCellStyle = this.getCellStyle.bind(this);
   }
 

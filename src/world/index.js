@@ -29,7 +29,7 @@ export default class World extends React.Component {
   }
 
   componentDidMount() {
-    this.setScreenDimensions({size: 21});
+    this.setScreenDimensions({size: 16});
     this.setKeyBindings();
     let startingPlayerPosition = {
       x: 2,
