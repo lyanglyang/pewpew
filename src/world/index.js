@@ -30,30 +30,26 @@ export default class World extends React.Component {
     componentDidMount() {
         this.setScreenDimensions({size: 21});
         this.setKeyBindings();
-        let position = {
+        let startingPlayerPosition = {
             x: 2,
             y: 2
         };
-        this.setCameraFocus(position);
-        this.setPlayerPosition(position);
+        this.setCameraFocus(startingPlayerPosition);
+        this.setPlayerPosition(startingPlayerPosition);
     }
 
     getRelativePosition({x, y}) {
-        let position = {
-            x: x,
-            y: y
-        };
+
         let mapStartPoints = {
             x: (this.state.cameraFocusPoint.x - this.screenDimensions.radius),
             y: (this.state.cameraFocusPoint.y - this.screenDimensions.radius),
         };
 
-        //TODO: FIGURE OUT HOW TO FIND RELATIVE POSITION
-        let a = {
-            x: x,
-            y: y
+        //TODO: BOUNDARY VALUE VALIDATIONS
+        return {
+            x: x - mapStartPoints.x,
+            y: y - mapStartPoints.y
         };
-        return a;
     }
 
     setPlayerPosition({x, y}) {
