@@ -106,19 +106,19 @@ export default class World extends React.Component {
       let playerPosition = Object.assign({}, this.state.player.position);
       switch (e.which || e.keyCode) {
         case 37:
-          playerPosition.x -= 0.5;
+          playerPosition.x -= 0.25;
           break;
 
         case 39:
-          playerPosition.x += 0.5;
+          playerPosition.x += 0.25;
           break;
 
         case 38:
-          playerPosition.y -= 0.5;
+          playerPosition.y -= 0.25;
           break;
 
         case 40:
-          playerPosition.y += 0.5;
+          playerPosition.y += 0.25;
           break;
 
         default:
