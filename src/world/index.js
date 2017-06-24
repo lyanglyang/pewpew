@@ -138,7 +138,11 @@ export default class World extends React.Component {
   }
 
   fireBullet(){
-    this.setState({bulletFired: true})
+    this.setState({bulletFired: true});
+  }
+
+  killBullet(){
+    this.setState({bulletFired: false});
   }
 
   render() {
@@ -146,7 +150,7 @@ export default class World extends React.Component {
       <div className="world-container">
         <TileMap tileMap={this.state.visibleTileMap}/>
         <Frog position={this.state.player.relativePosition} fireBullet={this.fireBullet.bind(this)}/>
-        {this.state.bulletFired ? <Bullet position={this.state.player.relativePosition}/> : null}
+        {this.state.bulletFired ? <Bullet position={this.state.player.relativePosition} killBullet={this.killBullet.bind(this)}/> : null}
       </div>
     )
   }
