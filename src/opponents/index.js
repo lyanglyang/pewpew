@@ -10,7 +10,7 @@ export default class Opponent extends React.Component {
   }
 
   generateRandomPosition(){
-    setInterval(()=>this.props.updatePosition(this.props.index), 300);
+    // setInterval(()=>this.props.updatePosition(this.props.index), 300);
   }
 
   getCellStyle = () =>{

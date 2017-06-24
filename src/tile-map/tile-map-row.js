@@ -1,18 +1,21 @@
 import React from 'react';
+import GLOBAL from '../constants';
 
 export default class TileMapRow extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.state = {};
-    this.cellSize = 120;
+    this.cellSize = GLOBAL.CELL_SIZE;
     this.getCellStyle = this.getCellStyle.bind(this);
   }
 
   getCellStyle(index) {
     return {
       left: this.cellSize * index,
-      top: this.cellSize * this.props.rowIndex
+      top: this.cellSize * this.props.rowIndex,
+      height: this.cellSize,
+      width: this.cellSize
     }
   }
 
