@@ -1,3 +1,12 @@
-p {
-  background: red;
+.tile-map {
+
+}
+
+.tile-map-row {
+  width: 50px;
+  height: 50px;
+}
+
+.tile-map-row.block-1 {
+  background: black;
 }
