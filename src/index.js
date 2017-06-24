@@ -9,13 +9,39 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
-ReactDOM.render(<Router>
-  <Switch>
-    <Route exact path="/" component={App}/>
-    <Route path="/login" component={Login}/>
-    <Route path="/gameover" component={GameOver}/>
-    <Route path="*" component={NotFoundRoute}/>
-  </Switch>
-</Router>, document.getElementById('root'));
+class Main extends React.Component {
+
+  constructor(){
+    super();
+    this.state = {
+      userActive: false,
+      gameOver: false,
+      userName: ''
+    }
+  }
+
+  setSession = (name)=>{
+    this.setState({userName: name, userActive: true})
+  };
+
+  clearSession = () =>{
+    this.setState({userName: '', userActive: false})
+  };
+
+  render() {
+
+    if(!this.state.userActive){
+      return <Login setSession={this.setSession}/>
+    }
+    else if (this.state.gameOver){
+      return <GameOver clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
+    }
+    else {
+      return <App userName={this.state.userName}/>
+    }
+  }
+}
+
+ReactDOM.render(<Main/>, document.getElementById('root'));
 
 registerServiceWorker();

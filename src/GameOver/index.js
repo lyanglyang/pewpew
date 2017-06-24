@@ -3,10 +3,12 @@ import React from 'react';
 export default class GameOver extends React.Component {
 
   handleRestart = ()=>{
+    this.props.toggleGame();
     alert("need to handle restart");
   };
 
   handleQuit = () => {
+    this.props.closeSession();
     alert("need to handle quit");
   };
 

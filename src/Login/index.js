@@ -7,11 +7,14 @@ export default class Login extends React.Component {
     //callApi({
       //name: this.refs.name.value
     //});
+    let name = this.refs.name.value;
     if(this.refs.name.value=== ""){
       alert("name is empty")
     }
-    else
-      alert("need to handle login");
+    else{
+      this.props.setSession(name);
+
+    }
   };
 
   render() {
