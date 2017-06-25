@@ -14,12 +14,16 @@ export default class GameOver extends React.Component {
 
   render() {
     return (
-      <div className="game-over-containter">
+      <div className="login-container">
+        <h1 className="title">
+          Pew Pew
+        </h1>
+        <h1 className="title">
+          Game Over
+        </h1>
         <div className="score-container">
           Score: 100
-          Killed: 10
         </div>
-        GAME OVER
         <button type="button" onClick={this.handleRestart} className="restart"> Restart </button>
         <button type="button" onClick={this.handleQuit} className="quit">Quit</button>
       </div>)
