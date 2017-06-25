@@ -309,3 +309,19 @@ button.active {
   50%,
   95% {transform: translateY(0px);}
 }
+
+.alertbox{
+    max-width: 300px;
+    background: rgba(241, 241, 217, 0.71);
+    border-radius: 10px;
+    box-shadow: 0 6px #9d8c7a;
+    word-wrap: break-word;
+    padding: 15px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    z-index: 999;
+    transform: translateX(-50%);
+    letter-spacing: 2px;
+    transition: all 0.3s ease-in-out;
+}

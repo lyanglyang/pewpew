@@ -364,7 +364,7 @@ export default class World extends React.Component {
   render() {
     return (
         <div className="container">
-          <p>{this.state.interactiveText}</p>
+          <p className="alertbox">{this.state.interactiveText}</p>
           <div className="hud">
             <div className="hud-column">User: {this.props.userName}</div>
             <div className="hud-column text-center">
