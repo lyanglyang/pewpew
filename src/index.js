@@ -40,7 +40,7 @@ class Main extends React.Component {
       return <GameOver clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
     }
     else {
-      return <App response={this.state.response} userName={this.state.response.firstName}/>
+      return <App response={this.state.response} userName={this.state.response && this.state.response.firstName}/>
     }
   }
 }
