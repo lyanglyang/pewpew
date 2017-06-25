@@ -69,7 +69,7 @@ export default class World extends React.Component {
 
   componentDidMount() {
     this.setBackandEvents();
-    this.setScreenDimensions({x: 9, y: 5});
+    this.setScreenDimensions({x: 9, y: 4});
     let startingPlayerPosition = POSSIBLE_SPAWN_POINTS[Math.floor(Math.random() * 5) + 0];
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
