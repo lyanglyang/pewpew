@@ -16,12 +16,12 @@ const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
 const POSSIBLE_SPAWN_POINTS = [
-  {x: 2, y:2},
+  {x: 3, y:5},
   {x : 10, y: 10},
-  {x: 5, y: 5},
-  {x: 10, y: 2},
-  {x: 2, y: 9},
-  {x:4, y:4}
+  {x: 10, y: 4},
+  {x: 10, y: 13},
+  {x: 14, y: 1},
+  {x: 14, y:5}
 ];
 
 const INTERACTIVE_TEXTS = {
@@ -188,6 +188,7 @@ export default class World extends React.Component {
   };
 
   setPlayerPosition({x, y}) {
+    console.log(x,y, 1111);
     if(!this.state.player.isActive) {
       return;
     }
