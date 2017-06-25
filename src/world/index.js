@@ -15,6 +15,7 @@ import {
 const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
+
 export default class World extends React.Component {
 
   constructor(props, context) {
@@ -29,7 +30,8 @@ export default class World extends React.Component {
       player: {
         id: uuidv1(),
         relativePosition: {},
-        position: {}
+        position: {},
+        health: 100
       },
 
       opponents: {},
@@ -38,25 +40,12 @@ export default class World extends React.Component {
 
     this.screenDimensions = {};
     this.cameraBarrierPoints = {};
-    this.mapStartPoints = {};
 
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setPlayerPosition = this.setPlayerPosition.bind(this);
     this.checkFrogCollision = this.checkFrogCollision.bind(this);
   }
-
-  updatePosition = (index) => {
-    var cloneState = Object.assign({}, this.state);
-    cloneState.opponents = cloneState.opponents.slice();
-    cloneState.opponents[index] = Object.assign({}, cloneState.opponents[index]);
-    if (cloneState.opponents[index].y > 20) {
-      cloneState.opponents[index].x += 1;
-    } else {
-      cloneState.opponents[index].y += 1;
-    }
-    this.setState(cloneState);
-  };
 
   componentDidMount() {
     this.connectBackand();
@@ -69,41 +58,41 @@ export default class World extends React.Component {
     this.setPlayerPosition(startingPlayerPosition);
   }
 
-  getRelativePosition({x, y}) {
-    return {
-      x: x - this.mapStartPoints.x,
-      y: y - this.mapStartPoints.y
-    };
-  }
-
   connectBackand = () => {
-
     axios.post('https://api.backand.com/1/function/general/game', {
       eventName: 'new-player',
-      player: {
-        x: this.state.player.position.x,
-        y: this.state.player.position.y,
-        id: this.state.player.id,
-        name: this.state.player.name
-      }
+      player: this.buildPlayerJson()
     });
     this.setBackandEvents();
   };
 
+  buildPlayerJson = () => {
+    return {
+      x: this.state.player.position.x,
+      y: this.state.player.position.y,
+      id: this.state.player.id,
+      name: this.state.player.name
+    }
+  };
+
+  sanitizePlayerJsonData = (data) => {
+    let _data = {};
+    data[1]['Value'].forEach((d) => {
+      _data[d['Key']] = d['Value']
+    });
+    return {
+      position: {
+        x: _data.x,
+        y: _data.y
+      },
+      id: _data.id
+    };
+  };
+
   setBackandEvents = () => {
     backand.on('new-player', (data) => {
-      let _data = {};
-      data[1]['Value'].forEach((d) => {
-        _data[d['Key']] = d['Value']
-      });
-      let player = {
-        position: {
-          x: _data.x,
-          y: _data.y
-        },
-        id: _data.id
-      };
-      if (_data.id === this.state.player.id) {
+      let player = this.sanitizePlayerJsonData(data);
+      if (player.id === this.state.player.id) {
         return;
       }
       this.state.opponents[player.id] = player;
@@ -113,19 +102,8 @@ export default class World extends React.Component {
 
     });
     backand.on('player-update', (data) => {
-      console.log("jerer",data)
-      let _data = {};
-      data[1]['Value'].forEach((d) => {
-        _data[d['Key']] = d['Value']
-      });
-      let player = {
-        position: {
-          x: _data.x,
-          y: _data.y
-        },
-        id: _data.id
-      };
-      if (_data.id === this.state.player.id) {
+      let player = this.sanitizePlayerJsonData(data);
+      if (player.id === this.state.player.id) {
         return;
       }
       this.state.opponents[player.id] = player;
@@ -158,12 +136,7 @@ export default class World extends React.Component {
     });
     axios.post('https://api.backand.com/1/function/general/game', {
       eventName: 'player-update',
-      player: {
-        x: this.state.player.position.x,
-        y: this.state.player.position.y,
-        id: this.state.player.id,
-        name: this.state.player.name
-      }
+      player: this.buildPlayerJson()
     });
   }
 
