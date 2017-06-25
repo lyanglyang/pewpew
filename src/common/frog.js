@@ -9,6 +9,7 @@ export default class Frog extends React.Component {
     this.state = {
     };
     this.movingDirection = 1;
+    this.punchCooldownActive = false;
     this.setKeyBindings = this.setKeyBindings.bind(this);
     this.pewpew = this.pewpew.bind(this);
   }
@@ -18,6 +19,9 @@ export default class Frog extends React.Component {
   }
 
   pewpew() {
+    if(this.punchCooldownActive) {
+      return false;
+    }
     let swordDirections = {
       1: {left: -1, top: 0},
       2: {left: 1, top: 0},
@@ -30,6 +34,10 @@ export default class Frog extends React.Component {
       y: this.props.player.position.y + (swordDirection['top'] / 4),
       swordDirection: swordDirection
     });
+    this.punchCooldownActive = true;
+    setTimeout(()=> {
+      this.punchCooldownActive = false;
+    },250);
   }
 
   setKeyBindings() {

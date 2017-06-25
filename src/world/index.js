@@ -6,8 +6,6 @@ import GLOBAL from '../constants';
 import backand from '../common/Backand';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
-
-
 import {
   detectCollision
 } from '../utils/geometry';
@@ -22,11 +20,7 @@ export default class World extends React.Component {
     super(props, context);
 
     this.state = {
-      visibleTileMap: [],
       cameraFocusPoint: {},
-
-      bulletFired: false,
-
       player: {
         id: uuidv1(),
         name: props.userName,
@@ -43,9 +37,7 @@ export default class World extends React.Component {
         score: 0,
         isActive: true
       },
-
       opponents: {},
-
     };
 
     this.screenDimensions = {};
@@ -58,7 +50,7 @@ export default class World extends React.Component {
   }
 
   componentDidMount() {
-    this.connectBackand();
+    this.setBackandEvents();
     this.setScreenDimensions({x: 9, y: 5});
     let startingPlayerPosition = {
       x: 2,
@@ -67,10 +59,6 @@ export default class World extends React.Component {
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
   }
-
-  connectBackand = () => {
-    this.setBackandEvents();
-  };
 
   buildPlayerJson = () => {
     return {
@@ -118,7 +106,7 @@ export default class World extends React.Component {
       if (player.id === this.state.player.id) {
         return;
       }
-      if(player.health <= 0) {
+      if (player.health <= 0) {
         delete this.state.opponents[player.id];
       } else {
         this.state.opponents[player.id] = player;
@@ -131,15 +119,15 @@ export default class World extends React.Component {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         player = this.state.player;
-        player.health -= 5;
-        if(player.health <= 0) {
+        player.health -= 10;
+        if (player.health <= 0) {
           this.props.closeGame();
         }
         return;
       }
       let opponent = this.state.opponents[player.id];
       if (opponent) {
-        opponent.health -= 5;
+        opponent.health -= 10;
         if (opponent.health <= 0) {
           delete this.state.opponents[player.id];
         } else {
@@ -169,7 +157,6 @@ export default class World extends React.Component {
           }
         }, 100);
       }
-
     });
   };
 
@@ -242,10 +229,7 @@ export default class World extends React.Component {
       let tileRow = this.props.worldMap[i];
       for (let j = 0; j < tileRow.length; j++) {
         let tileCell = tileRow[j];
-
-
         let tileCellObject = tileObject[tileCell];
-
         if (tileCellObject && tileCellObject.rigid) {
           let tileDimensions = {
             x: (j) * GLOBAL.CELL_SIZE,
@@ -359,6 +343,7 @@ export default class World extends React.Component {
                        index={index} opponent={this.state.opponents[opponentKey]}/>
           )
         }
+
         <table>
           <tbody>
           {
