@@ -48,7 +48,7 @@ export default class Frog extends React.Component {
   }
 
   setKeyBindings() {
-    document.onkeydown = (e) => {
+    document.onkeyup = (e) => {
       e = e || window.event;
       let playerPosition = Object.assign({}, this.props.player.position);
       switch (e.which || e.keyCode) {
@@ -75,10 +75,9 @@ export default class Frog extends React.Component {
         case 32:
           this.pewpew();
           return;
-          break;
+
         default:
           return;
-          break;
       }
       this.props.setPlayerPosition(playerPosition);
     }
