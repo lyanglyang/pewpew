@@ -1,7 +1,6 @@
 import React from 'react';
 import GLOBAL from '../constants';
 
-
 export default class Frog extends React.Component {
 
   constructor(props, context) {

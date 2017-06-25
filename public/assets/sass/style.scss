@@ -29,10 +29,11 @@ body,html,#root{
   position: relative;
   border: 20px solid #663399;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .tile-map {
-
+  position: absolute;
 }
 
 .tile-map-cell {
