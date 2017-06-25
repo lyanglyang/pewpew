@@ -40,7 +40,8 @@ export default class World extends React.Component {
             top: 0
           }
         },
-        score: 0
+        score: 0,
+        isActive: true
       },
 
       opponents: {},
@@ -68,10 +69,6 @@ export default class World extends React.Component {
   }
 
   connectBackand = () => {
-    axios.post('https://api.backand.com/1/function/general/game', {
-      eventName: 'new-player',
-      player: this.buildPlayerJson()
-    });
     this.setBackandEvents();
   };
 
@@ -85,7 +82,8 @@ export default class World extends React.Component {
       swdl: this.state.player.swordAction.swordDirection.left,
       swdt: this.state.player.swordAction.swordDirection.top,
       swaa: this.state.player.swordAction.active,
-      score: this.state.player.score
+      score: this.state.player.score,
+      isActive: this.state.player.isActive
     }
   };
 
@@ -109,28 +107,22 @@ export default class World extends React.Component {
       },
       id: _data.id,
       score: _data.score,
-      name: _data.name
+      name: _data.name,
+      isActive: _data.isActive
     };
   };
 
   setBackandEvents = () => {
-    backand.on('new-player', (data) => {
-      let player = this.sanitizePlayerJsonData(data);
-      if (player.id === this.state.player.id) {
-        return;
-      }
-      this.state.opponents[player.id] = player;
-      this.setState({
-        opponents: this.state.opponents
-      });
-
-    });
     backand.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         return;
       }
-      this.state.opponents[player.id] = player;
+      if(player.health <= 0) {
+        delete this.state.opponents[player.id];
+      } else {
+        this.state.opponents[player.id] = player;
+      }
       this.setState({
         opponents: this.state.opponents
       });
