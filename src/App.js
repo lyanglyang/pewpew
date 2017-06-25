@@ -63,15 +63,6 @@ getAudioPermission.then(function (stream) {
 
 class App extends Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  componentDidMount() {
-  }
-
-class App extends Component {
-
     render() {
         return (
             <div>
