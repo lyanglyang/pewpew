@@ -14,15 +14,13 @@ export default class Opponent extends React.Component {
   }
 
   getCellStyle = () =>{
-    let {x, y} = this.props.position,
-      display = "inline-block";
-    if (x > 20 || y > 20){
-      display = "none";
+    let position = {
+      x: (this.props.opponent.position.x - this.props.cameraFocusPoint.x),
+      y: (this.props.opponent.position.y - this.props.cameraFocusPoint.y)
     }
     return {
-      left: GLOBAL.CELL_SIZE * x,
-      top: GLOBAL.CELL_SIZE * y,
-      display
+      left: GLOBAL.CELL_SIZE * position.x,
+      top: GLOBAL.CELL_SIZE * position.y
     }
   };
 

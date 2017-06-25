@@ -5,7 +5,7 @@ import Opponents from '../opponents';
 import GLOBAL from '../constants';
 import backand from '@backand/vanilla-sdk';
 import axios from 'axios';
-
+import uuidv1 from 'uuid/v1';
 
 import {
   detectCollision
@@ -37,15 +37,12 @@ export default class World extends React.Component {
       bulletFired: false,
 
       player: {
+        id: uuidv1(),
         relativePosition: {},
         position: {}
       },
 
-      opponents: [
-        {x: 1, y: 1},
-        {x: 3, y: 3},
-        {x: 5, y: 5}
-      ]
+      opponents: {},
 
     };
 
@@ -99,23 +96,65 @@ export default class World extends React.Component {
     });
     backand.signup(`guest${new Date().getTime()}`, "user", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
       .then(res => {
-        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
       });
     axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
+    axios.post('https://api.backand.com/1/function/general/game', {
+      eventName: 'new-player',
+      player: {
+        x: this.state.player.position.x,
+        y: this.state.player.position.y,
+        id: this.state.player.id,
+        name: this.state.player.name
+      }
+    });
     this.setBackandEvents();
   };
 
   setBackandEvents = () => {
-    backand.on('items_updated', function (data) {
-      console.log('items_updated');
-      console.log(data);
+    backand.on('new-player', (data) => {
+      let _data = {};
+      data[1]['Value'].forEach((d) => {
+        _data[d['Key']] = d['Value']
+      });
+      let player = {
+        position: {
+          x: _data.x,
+          y: _data.y
+        },
+        id: _data.id
+      };
+      if(_data.id === this.state.player.id) {
+        return;
+      }
+      this.state.opponents[player.id] = player;
+      this.setState({
+        opponents: this.state.opponents
+      });
+
     });
-    setInterval(() => {
-      axios.get('https://api.backand.com/1/function/general/game');
-    }, 1000)
+    backand.on('player-update', (data) => {
+      let _data = {};
+      data[1]['Value'].forEach((d) => {
+        _data[d['Key']] = d['Value']
+      });
+      let player = {
+        position: {
+          x: _data.x,
+          y: _data.y
+        },
+        id: _data.id
+      };
+      if(_data.id === this.state.player.id) {
+        return;
+      }
+      this.state.opponents[player.id] = player;
+      this.setState({
+        opponents: this.state.opponents
+      });
+    });
   };
 
   setPlayerPosition({x, y}) {
@@ -135,9 +174,18 @@ export default class World extends React.Component {
     this.state.player.relativePosition = {
       x: (position.x - this.state.cameraFocusPoint.x),
       y: (position.y - this.state.cameraFocusPoint.y)
-    } ;
+    };
     this.setState({
       player: this.state.player
+    });
+    axios.post('https://api.backand.com/1/function/general/game', {
+      eventName: 'player-update',
+      player: {
+        x: this.state.player.position.x,
+        y: this.state.player.position.y,
+        id: this.state.player.id,
+        name: this.state.player.name
+      }
     });
   }
 
@@ -194,9 +242,6 @@ export default class World extends React.Component {
             width: GLOBAL.CELL_SIZE,
             height: GLOBAL.CELL_SIZE
           };
-          if(tileCell === 5) {
-            console.log(1, 2, tileDimensions, frogDimensions)
-          }
           if (detectCollision(tileDimensions, frogDimensions)) {
             return true;
             break;
@@ -249,9 +294,11 @@ export default class World extends React.Component {
         <Frog player={this.state.player}
               pewpew={this.pewpew.bind(this)}
               setPlayerPosition={this.setPlayerPosition}/>
-        {this.state.opponents.map((position, index) =>
-          <Opponents key={index} updatePosition={this.updatePosition}
-                     index={index} position={this.getRelativePosition(position)}/>)
+        {
+          Object.keys(this.state.opponents).map((opponentKey, index) =>
+            <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
+                       index={index} opponent={this.state.opponents[opponentKey]}/>
+          )
         }
       </div>
     )
