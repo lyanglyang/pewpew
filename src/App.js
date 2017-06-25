@@ -3,14 +3,8 @@ import React, {Component} from 'react';
 import World from './world';
 //constants
 import GLOBAL from './constants';
-
-const ERRORS = {
-  AUDIOPERMISSIONDENIED: "PermissionDeniedError"
-};
-
-const MESSAGES = {
-  NEEDSAUDIOPERMISSION: "You need to provide audio access for this game to work."
-};
+import ERRORS from './constants/errors';
+import MESSAGES from './constants/messages';
 
 let constraints = {audio: true};
 
@@ -56,25 +50,25 @@ getAudioPermission.then(function (stream) {
 
 }).catch(function (err) {
   console.log(err);
-  if (err.name === ERRORS.AUDIOPERMISSIONDENIED) {
-    alert(MESSAGES.NEEDSAUDIOPERMISSION);
+  if (err.name === ERRORS.AUDIO_PERMISSION_DENIED) {
+    alert(MESSAGES.NEEDS_AUDIO_PERMISSION);
   }
 });
 
 class App extends Component {
 
-    render() {
-        return (
-            <div>
-                <div className="container">
-                  <div className="hud">User: {this.props.userName}</div>
-                </div>
-                <div className="container">
-                  <World worldMap={GLOBAL.GAME_WORLD}/>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <div className="container">
+          <div className="hud">User: {this.props.userName}</div>
+        </div>
+        <div className="container">
+          <World worldMap={GLOBAL.GAME_WORLD}/>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
