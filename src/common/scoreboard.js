@@ -13,7 +13,7 @@ export default class Scoreboard extends React.Component {
             scores.map((score) => {
               return (
                 <tr>
-                  <td>{score.owner}</td>
+                  <td>{score.owner}:</td>
                   <td>{score.value}</td>
                 </tr>)
             })
