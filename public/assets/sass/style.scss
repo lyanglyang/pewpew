@@ -345,10 +345,15 @@ button.active {
     }
   }
 }
+
 .game-list{
   list-style: none;
   margin-bottom: 30px;
   li{
     margin-bottom: 10px;
   }
+}
+
+.st-launcher-tab{
+  display: none;
 }
