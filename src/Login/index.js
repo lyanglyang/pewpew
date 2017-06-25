@@ -56,6 +56,7 @@ class Login extends React.Component {
           <input autoFocus={true} type="text" placeholder="Name" value={this.state.defaultName} onChange={this.handleChange} /></div>
           <div className="form-row"><button type="submit" className="login-btn">Play</button></div>
           <div className="form-row"><button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button></div>
+          <div className="form-row"><button type="button" onClick={this.props.goToAboutUs} className="controls-btn">About Us</button></div>
         </form>
       </div>)
   }

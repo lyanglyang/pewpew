@@ -49,6 +49,11 @@ html, #root {
   padding: 50px 30px;
   height: auto !important;
   color: #582828;
+
+  a{
+    text-decoration: none;
+    color: #582828;
+  }
   h1 {
     margin-bottom: 50px;
   }
@@ -388,3 +393,4 @@ button.active {
   top: 90px;
   right: 4px;
 }
+
