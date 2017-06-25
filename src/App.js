@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 
-import backand from '@backand/vanilla-sdk'
 import World from './world';
-import axios from 'axios'
 //constants
 import GLOBAL from './constants';
 
@@ -46,7 +44,7 @@ getAudioPermission.then(function (stream) {
     }
 
     let voiceLevel = sum / freqByteData.length;
-    if(voiceLevel>30){
+    if (voiceLevel > 30) {
       console.log(voiceLevel);
     }
   }, 200);
@@ -63,44 +61,25 @@ getAudioPermission.then(function (stream) {
   }
 });
 
-const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
-//backand code
-backand.init({
-  appName: 'pewpew',
-  signUpToken: "cf706c34-ce4b-45f1-80c0-2a517fef995b",
-  anonymousToken: ANONYMOUS_TOKEN,
-  runSocket: true,
-});
-
-backand.signup(`guest${new Date().getTime()}`, "user", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
-  .then(res => {
-    console.log(res.data);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
-
-console.log(backand.user)
-//send request to backand
-axios.get('https://api.backand.com/1/function/general/game');
-
-backand.on('items_updated', function (data) {
-  console.log('items_updated');
-  console.log(data);
-});
-
 class App extends Component {
 
-    render() {
-        return (
-            <div>
-                User: {this.props.userName}
-                <World worldMap={GLOBAL.GAME_WORLD}/>
-            </div>
-        );
-    }
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  componentDidMount() {
+  }
+
+
+
+  render() {
+    return (
+      <div>
+        User: {this.props.userName}
+        <World worldMap={GLOBAL.GAME_WORLD}/>
+      </div>
+    );
+  }
 }
 
 export default App;

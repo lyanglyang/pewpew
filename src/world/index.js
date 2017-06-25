@@ -1,9 +1,11 @@
 import React from 'react';
-
 import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
+import backand from '@backand/vanilla-sdk';
+import axios from 'axios';
+
 
 import {
   detectCollision
@@ -75,14 +77,44 @@ export default class World extends React.Component {
     };
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
+    this.connectBackand();
   }
 
   getRelativePosition({x, y}) {
     return {
-      x: x - this.mapStartPoints.x || 0,
-      y: y - this.mapStartPoints.y || 0
+      x: x - this.mapStartPoints.x,
+      y: y - this.mapStartPoints.y
     };
   }
+
+  connectBackand = () => {
+    const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
+    backand.init({
+      appName: 'pewpew',
+      signUpToken: "cf706c34-ce4b-45f1-80c0-2a517fef995b",
+      anonymousToken: ANONYMOUS_TOKEN,
+      runSocket: true,
+    });
+    backand.signup(`guest${new Date().getTime()}`, "user", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
+    this.setBackandEvents();
+  };
+
+  setBackandEvents = () => {
+    backand.on('items_updated', function (data) {
+      console.log('items_updated');
+      console.log(data);
+    });
+    setInterval(()=> {
+      axios.get('https://api.backand.com/1/function/general/game');
+    }, 1000)
+  };
 
   setPlayerPosition({x, y}) {
     //BOUNDARY LIMIT VALIDATION
@@ -102,6 +134,7 @@ export default class World extends React.Component {
       player: this.state.player
     });
     this.setCameraFocus(position);
+    console.log(this.state.player.position, this.mapStartPoints, this.state.player.relativePosition)
   }
 
   setScreenDimensions({size}) {
@@ -175,7 +208,7 @@ export default class World extends React.Component {
     return false;
   }
 
-  pewpew({x,y}) {
+  pewpew({x, y}) {
     let frogDimensions = {
       x: x * GLOBAL.CELL_SIZE,
       y: y * GLOBAL.CELL_SIZE,
