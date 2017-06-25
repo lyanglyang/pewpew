@@ -34,7 +34,8 @@ export default class Frog extends React.Component {
     this.props.pewpew({
       x: this.props.player.position.x + (swordDirection['left'] / 4),
       y: this.props.player.position.y + (swordDirection['top'] / 4),
-      swordDirection: swordDirection
+      swordDirection: swordDirection,
+      movingDirection: this.movingDirection
     });
     this.punchCooldownActive = true;
     setTimeout(()=> {
@@ -121,10 +122,6 @@ export default class Frog extends React.Component {
           this.movingDirection = 4;
           break;
 
-        case 32:
-          this.pewpew();
-          return;
-
         default:
           return;
       }
@@ -152,7 +149,7 @@ export default class Frog extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
       top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
-      background: `url('/assets/images/cr-4.png')`,
+      background: `url('/assets/images/bullet-4.png')`,
       backgroundSize: `${height}px ${height}px`,
     }
   };
@@ -172,7 +169,7 @@ export default class Frog extends React.Component {
           <Line className="health-bar" percent={this.props.player.health} strokeWidth="4" strokeColor={this.checkColor()} />
           {
             (this.props.player.swordAction.active) ?
-              <div className="sword-action-wrapper">
+              <div className= {"sword-action-wrapper direction-" + this.props.player.swordAction.movingDirection}>
                 <div className="sword-action" style={this.getSwordActionStyle()}>
                 </div>
               </div>

@@ -16,13 +16,18 @@ const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
 const POSSIBLE_SPAWN_POINTS = [
-  {x: 2, y:2},
-  {x : 10, y: 10},
-  {x: 5, y: 5},
-  {x: 10, y: 2},
-  {x: 2, y: 9},
-  {x:4, y:4}
+  {x: 3, y: 5},
+  {x: 10, y: 10},
+  {x: 10, y: 4},
+  {x: 10, y: 13},
+  {x: 14, y: 1},
+  {x: 14, y: 5}
 ];
+
+const INTERACTIVE_TEXTS = {
+  dead: ["%s : Rest in Peace"],
+  damageDealt: ["%s is on fire"]
+};
 
 export default class World extends React.Component {
 
@@ -30,6 +35,7 @@ export default class World extends React.Component {
     super(props, context);
 
     this.state = {
+      interactiveText: '',
       cameraFocusPoint: {},
       player: {
         id: uuidv1(),
@@ -68,7 +74,24 @@ export default class World extends React.Component {
     this.setPlayerPosition(startingPlayerPosition);
   }
 
+  setInteractiveText(text) {
+    if(this.disableInteractiveText) {
+      return;
+    }
+    this.disableInteractiveText = true;
+    this.setState({
+      interactiveText: text
+    });
+    setTimeout(()=> {
+      this.setState({
+        interactiveText: ""
+      });
+      this.disableInteractiveText = false;
+    }, 1000);
+  }
+
   buildPlayerJson = () => {
+
     return {
       x: this.state.player.position.x,
       y: this.state.player.position.y,
@@ -78,6 +101,7 @@ export default class World extends React.Component {
       swdl: this.state.player.swordAction.swordDirection.left,
       swdt: this.state.player.swordAction.swordDirection.top,
       swaa: this.state.player.swordAction.active,
+      swad: this.state.player.swordAction.movingDirection,
       score: this.state.player.score,
       isActive: this.state.player.isActive,
       rand: this.state.player.rand,
@@ -100,7 +124,8 @@ export default class World extends React.Component {
         swordDirection: {
           left: _data.swdl,
           top: _data.swdt
-        }
+        },
+        movingDirection: _data.swad,
       },
       id: _data.id,
       score: _data.score,
@@ -113,10 +138,12 @@ export default class World extends React.Component {
   setBackandEvents = () => {
     backand.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
+
       if (player.id === this.state.player.id) {
         return;
       }
       if (player.health <= 0) {
+        this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.dead.length) + 0].replace("%s", player.name));
         delete this.state.opponents[player.id];
       } else {
         this.state.opponents[player.id] = player;
@@ -131,6 +158,10 @@ export default class World extends React.Component {
         player = this.state.player;
         player.health -= 10;
         if (player.health <= 0) {
+          this.state.player.isActive = false;
+          this.setState({
+            player: this.state.player
+          });
           this.props.closeGame(this.getScores());
         }
         return;
@@ -171,6 +202,10 @@ export default class World extends React.Component {
   };
 
   setPlayerPosition({x, y}) {
+    console.log(x, y, 1111);
+    if (!this.state.player.isActive) {
+      return;
+    }
     //BOUNDARY LIMIT VALIDATION
     if (x < 0 || x > (this.props.worldMap[0].length - 1) || y < 0 || y > (this.props.worldMap.length - 1)) {
       return;
@@ -257,7 +292,10 @@ export default class World extends React.Component {
     return false;
   }
 
-  pewpew({x, y, swordDirection}) {
+  pewpew({x, y, swordDirection, movingDirection}) {
+    if (!this.state.player.isActive) {
+      return;
+    }
     let frogDimensions = {
       x: x * GLOBAL.CELL_SIZE,
       y: y * GLOBAL.CELL_SIZE,
@@ -267,7 +305,8 @@ export default class World extends React.Component {
 
     this.state.player.swordAction = {
       active: true,
-      swordDirection: swordDirection
+      swordDirection: swordDirection,
+      movingDirection: movingDirection
     };
     this.setState({
       player: this.state.player
@@ -303,6 +342,7 @@ export default class World extends React.Component {
             id: opponentId
           }
         });
+        this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * INTERACTIVE_TEXTS.damageDealt.length) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
         this.setState({
           player: this.state.player
@@ -341,32 +381,37 @@ export default class World extends React.Component {
 
   render() {
     return (
-        <div className="container">
-          <div className="hud">
-            <div className="hud-column">User: {this.props.userName}</div>
-            <div className="hud-column text-center">
-              <h1 className="title">Pew Pew</h1>
-            </div>
-            <div className="hud-column text-center">
-              <span className="score">Your Score: {this.state.player.score}</span>
-              <button className="close-btn" onClick={() => this.props.closeGame(this.getScores())}>X</button>
-            </div>
+      <div className="container">
+        {
+          this.state.interactiveText ?
+            <p className="alertbox">{this.state.interactiveText}</p>
+            : null
+        }
+        <div className="hud">
+          <div className="hud-column">User: {this.props.userName}</div>
+          <div className="hud-column text-center">
+            <h1 className="title">Pew Pew</h1>
           </div>
-          <div className="container">
-            <div className="world-container" style={this.getWorldStyle()}>
-              <Scoreboard scores={this.getScores()}/>
-              <TileMap tileMap={this.props.worldMap}
-                       cameraPosition={this.state.cameraFocusPoint}/>
-              <Frog player={this.state.player}
-                    pewpew={this.pewpew.bind(this)}
-                    setPlayerPosition={this.setPlayerPosition}/>
-              {
-                Object.keys(this.state.opponents).map((opponentKey, index) =>
-                  <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
-                             index={index} opponent={this.state.opponents[opponentKey]}/>
-                )
-              }
-           </div>
+          <div className="hud-column text-center">
+            <span className="score">Your Score: {this.state.player.score}</span>
+            <button className="close-btn" onClick={() => this.props.closeGame(this.getScores())}>X</button>
+          </div>
+        </div>
+        <div className="container">
+          <div className="world-container" style={this.getWorldStyle()}>
+            <Scoreboard scores={this.getScores()}/>
+            <TileMap tileMap={this.props.worldMap}
+                     cameraPosition={this.state.cameraFocusPoint}/>
+            <Frog player={this.state.player}
+                  pewpew={this.pewpew.bind(this)}
+                  setPlayerPosition={this.setPlayerPosition}/>
+            {
+              Object.keys(this.state.opponents).map((opponentKey, index) =>
+                <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
+                           index={index} opponent={this.state.opponents[opponentKey]}/>
+              )
+            }
+          </div>
         </div>
       </div>
     )
@@ -382,7 +427,31 @@ const tileObject = {
   3: {
     rigid: true
   },
+  4: {
+    rigid: true
+  },
   5: {
+    rigid: true
+  },
+  6: {
+    rigid: true
+  },
+  7: {
+    rigid: true
+  },
+  8: {
+    rigid: true
+  },
+  9: {
+    rigid: true
+  },
+  10: {
+    rigid: true
+  },
+  11: {
+    rigid: true
+  },
+  12: {
     rigid: true
   }
 };

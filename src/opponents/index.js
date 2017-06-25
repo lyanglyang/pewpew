@@ -38,7 +38,7 @@ export default class Opponent extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
       top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
-      background: `url('/assets/images/cr-${this.props.opponent.rand || 1}.png')`,
+      background: `url('/assets/images/bullet-${this.props.opponent.rand || 1}.png')`,
       backgroundSize: `${height}px ${height}px`,
     }
   };
@@ -57,7 +57,7 @@ export default class Opponent extends React.Component {
         <Line className="health-bar" percent={this.props.opponent.health} strokeWidth="4" strokeColor={this.checkColor()}/>
         {
           (this.props.opponent.swordAction.active) ?
-            <div className="sword-action-wrapper">
+            <div className= {"sword-action-wrapper direction-" + this.props.opponent.swordAction.movingDirection}>
               <div className="sword-action" style={this.getSwordActionStyle()}>
               </div>
             </div>

@@ -135,6 +135,16 @@ html,#root{
   height: 120px;
   position: absolute;
   animation: float 6s infinite forwards;
+  &:after{
+    height: 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.17);
+    position: absolute;
+    bottom: -30px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: -1;
+  }
 }
 
 .snake {
@@ -143,6 +153,16 @@ html,#root{
   position: absolute;
   background-size: 30px 30px !important;
   animation: float 6s infinite forwards;
+  &:after{
+    height: 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.17);
+    position: absolute;
+    bottom: -30px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: -1;
+  }
 }
 
 
@@ -253,6 +273,13 @@ button.active {
   text-align: center;
 }
 
+.frog{
+  .player-name{
+    color: #3f51b5;
+    font-weight: 700;
+  }
+}
+
 .score-board{
   position: absolute;
   top: 0;
@@ -281,7 +308,42 @@ button.active {
   70% {transform: translateY(10px);}
   50%,
   95% {transform: translateY(0px);}
-  100% {transform: translateY(-10px);}
+}
+
+.alertbox{
+    max-width: 300px;
+    background: rgba(241, 241, 217, 0.71);
+    border-radius: 10px;
+    box-shadow: 0 6px #9d8c7a;
+    word-wrap: break-word;
+    padding: 15px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    z-index: 999;
+    transform: translateX(-50%);
+    letter-spacing: 2px;
+    transition: all 0.3s ease-in-out;
+}
+.direction{
+  //left
+  &-1{
+    .sword-action {
+      transform: rotate(-90deg);
+    }
+  }
+  //right
+  &-2{
+    .sword-action {
+      transform: rotate(90deg);
+    }
+  }
+  //down
+  &-4{
+    .sword-action {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .st-launcher-tab{
