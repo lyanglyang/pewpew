@@ -20,6 +20,9 @@ const tileObject = {
   3: {
     rigid: true
   },
+  5: {
+    rigid: true
+  }
 };
 
 export default class World extends React.Component {
@@ -71,8 +74,8 @@ export default class World extends React.Component {
   componentDidMount() {
     this.setScreenDimensions({x: 9, y: 5});
     let startingPlayerPosition = {
-      x: 0,
-      y: 0
+      x: 2,
+      y: 2
     };
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
@@ -126,7 +129,6 @@ export default class World extends React.Component {
   setCameraFocus({x, y}) {
     let cameraFocus = {};
     let cameraBarrierPoints = this.cameraBarrierPoints;
-    console.log(cameraBarrierPoints)
 
     cameraFocus.x = (x > cameraBarrierPoints.left) ? (x - cameraBarrierPoints.left) : 0;
     cameraFocus.x = (x < cameraBarrierPoints.right) ? cameraFocus.x : (cameraBarrierPoints.right - cameraBarrierPoints.left);
@@ -147,18 +149,24 @@ export default class World extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       height: (GLOBAL.CELL_SIZE / 4)
     };
-    for (let i = 0; i < this.state.visibleTileMap.length; i++) {
-      let tileRow = this.state.visibleTileMap[i];
+    for (let i = 0; i < this.props.worldMap.length; i++) {
+      let tileRow = this.props.worldMap[i];
       for (let j = 0; j < tileRow.length; j++) {
         let tileCell = tileRow[j];
+
+
         let tileCellObject = tileObject[tileCell];
+
         if (tileCellObject && tileCellObject.rigid) {
           let tileDimensions = {
-            x: i * GLOBAL.CELL_SIZE,
-            y: j * GLOBAL.CELL_SIZE,
+            x: (j) * GLOBAL.CELL_SIZE,
+            y: (i) * GLOBAL.CELL_SIZE,
             width: GLOBAL.CELL_SIZE,
             height: GLOBAL.CELL_SIZE
           };
+          if(tileCell === 5) {
+            console.log(1, 2, tileDimensions, frogDimensions)
+          }
           if (detectCollision(tileDimensions, frogDimensions)) {
             return true;
             break;
