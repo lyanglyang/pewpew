@@ -33,7 +33,7 @@ class Main extends React.Component {
   };
 
   render() {
-    if(!this.state.response.access_token ){
+    if( this.state.response && !this.state.response.access_token ){
       return <Login setSession={this.setSession}/>
     }
     else if (this.state.gameOver){

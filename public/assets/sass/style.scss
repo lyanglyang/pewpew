@@ -9,11 +9,13 @@
   }
 }
 @import url('https://fonts.googleapis.com/css?family=Amaranth:400,700');
-
+html{
+  background: #009688;
+}
 body{
   font-family: 'Amaranth', sans-serif;
 }
-body,html,#root{
+html,#root{
   height: 100%;
 }
 #root{
@@ -24,6 +26,22 @@ body,html,#root{
 .container{
   width: 1280px;
   margin: 0 auto;
+}
+.login-container{
+  width: 500px;
+  margin: 10% auto 0;
+  text-align: center;
+  background: #f1f1d9;
+  border-radius: 10px;
+  box-shadow: 0 10px #9d8c7a;
+  overflow: hidden;
+  padding: 50px 30px;
+  height: auto !important;
+  color: #582828;
+  .title{
+    margin-bottom: 50px;
+    font-size: 36px;
+  }
 }
 .world-container {
   position: relative;
@@ -84,4 +102,54 @@ body,html,#root{
 .sword-action {
   background: blue;
   position: absolute;
+}
+
+button {
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  min-width: 200px;
+  padding: 12px 15px;
+  font-size: 20px;
+  color: #fff;
+  background-color: #42a19b;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 6px #006071;
+  text-shadow: 0px 3px 2px rgba(150, 150, 150, 1);
+  cursor: pointer;
+}
+.form-row{
+  margin-top: 20px;
+}
+input{
+  font-family: 'Amaranth', sans-serif;
+  font-weight: 700;
+  min-width: 200px;
+  padding: 12px 15px;
+  border: 3px solid #005f71;
+  border-radius: 6px;
+  background: #e0e3c4;
+  font-size: 24px;
+  box-shadow: 0 6px #006071;
+  text-align: center;
+  &:focus{
+    outline:none;
+    border:  3px solid #005d70;
+  }
+}
+button:focus{
+  outline: none;
+}
+
+button:hover,
+button.hover {
+  background-color: #417cb8;
+}
+
+button:active,
+button.active {
+  background-color: #417cb8;
+  box-shadow: 0 5px #27496d;
+  transform: translateY(5px);
 }

@@ -67,14 +67,15 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="login-containter">
-        <div className="title">
+      <div className="login-container">
+        <h1 className="title">
           Pew Pew
-        </div>
+        </h1>
         <form onSubmit={this.handleLogin}>
-          <input autoFocus={true} type="text" placeholder="Name" value={this.state.defaultName} onChange={this.handleChange} />
-          <button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button>
-          <button type="submit" className="login-btn">Login</button>
+          <div className="form-row">
+          <input autoFocus={true} type="text" placeholder="Name" value={this.state.defaultName} onChange={this.handleChange} /></div>
+          <div className="form-row"><button type="submit" className="login-btn">Play</button></div>
+          <div className="form-row"><button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button></div>        
         </form>
       </div>)
   }
