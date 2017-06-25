@@ -61,7 +61,12 @@ class App extends Component {
     return (
       <div>
         <div className="container">
-          <div className="hud">User: {this.props.userName}</div>
+          <div className="hud">
+            <div className="hud-column">User: {this.props.userName}</div>
+            <div className="hud-column text-center">
+            <h1 className="title">Pew Pew</h1>
+            </div>
+          </div>
         </div>
         <div className="container">
           <World worldMap={GLOBAL.GAME_WORLD}/>

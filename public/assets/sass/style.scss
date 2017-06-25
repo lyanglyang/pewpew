@@ -24,8 +24,12 @@ html,#root{
   }
 }
 .container{
-  width: 1280px;
+  width: 1080px;
   margin: 0 auto;
+}
+.title{
+  font-size: 36px;
+  color: #582828;
 }
 .login-container{
   width: 500px;
@@ -38,16 +42,34 @@ html,#root{
   padding: 50px 30px;
   height: auto !important;
   color: #582828;
-  .title{
+  h1{
     margin-bottom: 50px;
-    font-size: 36px;
+  }
+}
+.hud{
+  background: #f1f1d9;
+  border-radius: 10px;
+  box-shadow: 0 6px #9d8c7a;
+  margin: 10px 0 20px ;
+  display: flex;
+  align-items: center;
+  &-column{
+    padding: 5px 15px;
+    font-size: 18px;
+    float: left;
+    width: 33.33%;
+  }
+  h1{
+    font-size: 28px;
   }
 }
 .world-container {
   position: relative;
-  border: 20px solid #663399;
-  border-radius: 10px;
+  border: 10px solid #f1f1d9;
   overflow: hidden;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 10px #9d8c7a;
 }
 
 .tile-map {
@@ -63,9 +85,34 @@ html,#root{
   text-indent: -9999px;
   background: url('/assets/images/camp.png') no-repeat;
 }
-.block-6{
+.block-4{
   text-indent: -9999px;
   background: url('/assets/images/windmill.png') no-repeat;
+}
+.block-6{
+  text-indent: -9999px;
+  background: url('/assets/images/grave.png') no-repeat;
+}
+.block-7{
+  text-indent: -9999px;
+  background: url('/assets/images/rubble.png') no-repeat;
+}
+.block-8{
+  text-indent: -9999px;
+  background: url('/assets/images/rockky.png') no-repeat;
+}
+.block-9{
+  text-indent: -9999px;
+  background: url('/assets/images/rockky.png') no-repeat;
+  transform: rotateY(180deg);
+}
+.block-10{
+  text-indent: -9999px;
+  background: url('/assets/images/barn.png') no-repeat;
+}
+.block-11{
+  text-indent: -9999px;
+  background: url('/assets/images/rock-2.png') no-repeat;
 }
 .block-1 {
   text-indent: -9999px;
@@ -152,4 +199,8 @@ button.active {
   background-color: #417cb8;
   box-shadow: 0 5px #27496d;
   transform: translateY(5px);
+}
+
+.text-center{
+  text-align: center;
 }
