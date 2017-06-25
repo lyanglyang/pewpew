@@ -15,8 +15,8 @@ class Login extends React.Component {
       defaultName: 'Player 1'
     }
   }
-  handleLogin = async (e)=>{
 
+  handleLogin = async (e)=>{
     e.preventDefault();
     //callApi({
       //name: this.refs.name.value
@@ -27,19 +27,8 @@ class Login extends React.Component {
     }
     else{
       await this.connectBackand(name);
-      this.setBackandEvents();
       this.props.setSession();
     }
-  };
-
-  setBackandEvents = () => {
-    backand.on('items_updated', function (data) {
-      console.log('items_updated');
-      console.log(data);
-    });
-    setInterval(() => {
-      axios.get('https://api.backand.com/1/function/general/game');
-    }, 1000)
   };
 
   handleChange = (e)=>{
@@ -55,7 +44,6 @@ class Login extends React.Component {
       .catch(err => {
         console.log(err);
       });
-    axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
   };
 
   render() {
