@@ -1,6 +1,9 @@
 import React from 'react';
 
-export default class Login extends React.Component {
+//hoc
+import controlsHOC from '../common/controlsHOC';
+
+class Login extends React.Component {
 
   handleLogin = (e)=>{
 
@@ -24,7 +27,10 @@ export default class Login extends React.Component {
           Pew Pew
         </div>
         <input type="text" ref="name" placeholder="Name"/>
+        <button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button>
         <button type="button" onClick={this.handleLogin} className="login-btn">Login</button>
       </div>)
   }
 }
+
+export default controlsHOC(Login);
