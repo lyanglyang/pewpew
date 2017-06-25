@@ -48,7 +48,7 @@ export default class Opponent extends React.Component {
     return (
       <div className="snake" style={this.getCellStyle()}>
         <span className="player-name">{this.props.opponent.name}</span>
-        <Line percent={this.props.opponent.health} strokeWidth="4" strokeColor={this.checkColor}/>
+        <Line className="health-bar" percent={this.props.opponent.health} strokeWidth="4" strokeColor={this.checkColor()}/>
         {
           (this.props.opponent.swordAction.active) ?
             <div className="sword-action-wrapper">

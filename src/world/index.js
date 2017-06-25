@@ -108,7 +108,8 @@ export default class World extends React.Component {
         }
       },
       id: _data.id,
-      score: _data.score
+      score: _data.score,
+      name: _data.name
     };
   };
 
