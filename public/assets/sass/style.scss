@@ -325,3 +325,23 @@ button.active {
     letter-spacing: 2px;
     transition: all 0.3s ease-in-out;
 }
+.direction{
+  //left
+  &-1{
+    .sword-action {
+      transform: rotate(-90deg);
+    }
+  }
+  //right
+  &-2{
+    .sword-action {
+      transform: rotate(90deg);
+    }
+  }
+  //down
+  &-4{
+    .sword-action {
+      transform: rotate(180deg);
+    }
+  }
+}
