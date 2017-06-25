@@ -19,15 +19,34 @@ export default class Opponent extends React.Component {
       y: (this.props.opponent.position.y - this.props.cameraFocusPoint.y)
     };
     return {
+      height: (GLOBAL.CELL_SIZE / 4),
+      width: (GLOBAL.CELL_SIZE / 4),
       left: GLOBAL.CELL_SIZE * position.x,
       top: GLOBAL.CELL_SIZE * position.y
+    }
+  };
+
+  getSwordActionStyle = () => {
+    let swordDirection = this.props.opponent.swordAction.swordDirection;
+    return {
+      height: (GLOBAL.CELL_SIZE / 4),
+      width: (GLOBAL.CELL_SIZE / 4),
+      left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
+      top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
     }
   };
 
   render() {
     return (
       <div className="snake" style={this.getCellStyle()}>
-        {`S${this.props.opponent.health}`}
+        {
+          (this.props.opponent.swordAction.active) ?
+            <div className="sword-action-wrapper">
+              <div className="sword-action" style={this.getSwordActionStyle()}>
+              </div>
+            </div>
+            : null
+        }
       </div>)
   }
 }

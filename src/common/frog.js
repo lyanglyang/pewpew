@@ -6,11 +6,6 @@ export default class Frog extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      swordTarget: {
-        active: true,
-        left: 0,
-        top: 0
-      }
     };
     this.movingDirection = 1;
     this.setKeyBindings = this.setKeyBindings.bind(this);
@@ -28,23 +23,12 @@ export default class Frog extends React.Component {
       3: {left: 0, top: -1},
       4: {left: 0, top: 1}
     };
-    this.setState({
-      swordTarget: {
-        active: true,
-        left: (swordDirections[this.movingDirection]['left']) * (GLOBAL.CELL_SIZE / 4),
-        top: (swordDirections[this.movingDirection]['top']) * (GLOBAL.CELL_SIZE / 4),
-      }
-    });
+    let swordDirection = swordDirections[this.movingDirection];
     this.props.pewpew({
-      x: this.props.player.position.x + (swordDirections[this.movingDirection]['left'] / 4),
-      y: this.props.player.position.y + (swordDirections[this.movingDirection]['top'] / 4)
+      x: this.props.player.position.x + (swordDirection['left'] / 4),
+      y: this.props.player.position.y + (swordDirection['top'] / 4),
+      swordDirection: swordDirection
     });
-    setTimeout(() => {
-      this.state.swordTarget.active = false;
-      this.setState({
-        swordTarget: this.state.swordTarget
-      });
-    }, 100);
   }
 
   setKeyBindings() {
@@ -94,11 +78,12 @@ export default class Frog extends React.Component {
   };
 
   getSwordActionStyle = () => {
+    let swordDirection = this.props.player.swordAction.swordDirection;
     return {
       height: (GLOBAL.CELL_SIZE / 4),
       width: (GLOBAL.CELL_SIZE / 4),
-      left: this.state.swordTarget.left,
-      top: this.state.swordTarget.top
+      left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
+      top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
     }
   };
 
@@ -106,7 +91,7 @@ export default class Frog extends React.Component {
     return (
       <div className="frog" style={this.getCellStyle()}>
         {
-          (this.state.swordTarget.active) ?
+          (this.props.player.swordAction.active) ?
             <div className="sword-action-wrapper">
               <div className="sword-action" style={this.getSwordActionStyle()}>
               </div>

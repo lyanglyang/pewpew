@@ -31,7 +31,14 @@ export default class World extends React.Component {
         id: uuidv1(),
         relativePosition: {},
         position: {},
-        health: 100
+        health: 100,
+        swordAction: {
+          active: false,
+          swordDirection: {
+            left: 0,
+            top: 0
+          }
+        }
       },
 
       opponents: {},
@@ -72,7 +79,10 @@ export default class World extends React.Component {
       y: this.state.player.position.y,
       id: this.state.player.id,
       name: this.state.player.name,
-      health: this.state.player.health
+      health: this.state.player.health,
+      swdl: this.state.player.swordAction.swordDirection.left,
+      swdt: this.state.player.swordAction.swordDirection.top,
+      swaa: this.state.player.swordAction.active
     }
   };
 
@@ -81,11 +91,19 @@ export default class World extends React.Component {
     data[1]['Value'].forEach((d) => {
       _data[d['Key']] = d['Value']
     });
+    console.log(_data, 999999)
     return {
       health: _data.health,
       position: {
         x: _data.x,
         y: _data.y
+      },
+      swordAction: {
+        active: _data.swaa,
+        swordDirection: {
+          left: _data.swdl,
+          top: _data.swdt
+        }
       },
       id: _data.id
     };
@@ -124,15 +142,36 @@ export default class World extends React.Component {
         return;
       }
       let opponent = this.state.opponents[player.id];
-      opponent.health -= 5;
-      if(opponent.health <= 0) {
-        delete this.state.opponents[player.id];
-      } else {
-        this.state.opponents[player.id] = opponent;
+      if(opponent) {
+        opponent.health -= 5;
+        if(opponent.health <= 0) {
+          delete this.state.opponents[player.id];
+        } else {
+          this.state.opponents[player.id] = opponent;
+        }
+        this.setState({
+          opponents: this.state.opponents
+        });
       }
+    });
+    backand.on('player-use-sword', (data)=> {
+      let player = this.sanitizePlayerJsonData(data);
+      if (player.id === this.state.player.id) {
+        return;
+      }
+      this.state.opponents[player.id] = player;
       this.setState({
         opponents: this.state.opponents
       });
+      if(player.swordAction.active) {
+        setTimeout(() => {
+          this.state.opponents[player.id]['swordAction']['active'] = false;
+          this.setState({
+            opponents: this.state.opponents
+          });
+        }, 100);
+      }
+
     });
   };
 
@@ -226,13 +265,38 @@ export default class World extends React.Component {
     return false;
   }
 
-  pewpew({x, y}) {
+  pewpew({x, y, swordDirection}) {
     let frogDimensions = {
       x: x * GLOBAL.CELL_SIZE,
       y: y * GLOBAL.CELL_SIZE,
       width: (GLOBAL.CELL_SIZE / 4),
       height: (GLOBAL.CELL_SIZE / 4)
     };
+
+    this.state.player.swordAction = {
+      active: true,
+      swordDirection: swordDirection
+    };
+    this.setState({
+      player: this.state.player
+    });
+
+    let _player  = this.buildPlayerJson();
+    console.log(this.state.player.swordAction,this.buildPlayerJson(),_player,1111)
+
+    _player.swaa = true;
+    axios.post('https://api.backand.com/1/function/general/game', {
+      eventName: 'player-use-sword',
+      player: _player
+    });
+
+    setTimeout(() => {
+      this.state.player.swordAction.active = false;
+      this.setState({
+        player: this.state.player
+      });
+    }, 100);
+
     for (let opponentId in this.state.opponents) {
       let opponent = this.state.opponents[opponentId];
       let tileDimensions = {
