@@ -26,8 +26,8 @@ const POSSIBLE_SPAWN_POINTS = [
 
 const INTERACTIVE_TEXTS = {
   dead: ["%s : Rest in Peace"],
-  damageDealt: ["Pew pew pew"],
-  underAttack: ["Taking fire needs assitance"],
+  damageDealt: ["Pew pew pew", "Fight !!!", "It's getting intense"],
+  underAttack: ["Taking fire needs assitance", "Run"],
 };
 
 export default class World extends React.Component {
@@ -77,18 +77,18 @@ export default class World extends React.Component {
 
   setInteractiveText(text, priority) {
     let timeout = 1000;
-    if(priority) {
+    if (priority) {
       this.disableInteractiveText = false;
       timeout = 3000;
     }
-    if(this.disableInteractiveText) {
+    if (this.disableInteractiveText) {
       return;
     }
     this.disableInteractiveText = true;
     this.setState({
       interactiveText: text
     });
-    setTimeout(()=> {
+    setTimeout(() => {
       this.setState({
         interactiveText: ""
       });
@@ -149,7 +149,7 @@ export default class World extends React.Component {
         return;
       }
       if (player.health <= 0) {
-        this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.dead.length) + 0].replace("%s", player.name), true);
+        this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * (INTERACTIVE_TEXTS.dead.length - 1)) + 0].replace("%s", player.name), true);
         delete this.state.opponents[player.id];
       } else {
         this.state.opponents[player.id] = player;
@@ -163,7 +163,7 @@ export default class World extends React.Component {
       if (player.id === this.state.player.id) {
         player = this.state.player;
         player.health -= 10;
-        this.setInteractiveText(INTERACTIVE_TEXTS.underAttack[Math.floor(Math.random() * INTERACTIVE_TEXTS.underAttack.length) + 0].replace("%s", player.name));
+        this.setInteractiveText(INTERACTIVE_TEXTS.underAttack[Math.floor(Math.random() * (INTERACTIVE_TEXTS.underAttack.length - 1)) + 0].replace("%s", player.name));
         if (player.health <= 0) {
           this.state.player.isActive = false;
           this.setState({
@@ -177,7 +177,7 @@ export default class World extends React.Component {
       if (opponent) {
         opponent.health -= 10;
         if (opponent.health <= 0) {
-          this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.underAttack.length) + 0].replace("%s", opponent.name), true);
+          this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * (INTERACTIVE_TEXTS.underAttack.length - 1)) + 0].replace("%s", opponent.name), true);
           delete this.state.opponents[player.id];
         } else {
           this.state.opponents[player.id] = opponent;
@@ -349,7 +349,7 @@ export default class World extends React.Component {
             id: opponentId
           }
         });
-        this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * INTERACTIVE_TEXTS.damageDealt.length) + 0].replace("%s", this.state.player.name));
+        this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length -1)) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
         this.setState({
           player: this.state.player
