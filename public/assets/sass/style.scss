@@ -385,6 +385,16 @@ button.active {
 #hackbit-vote-widget {
   width: 170px;
   position: absolute;
-  top: 90px;
-  right: 4px;
+  bottom: 5px;
+  right: 5px;
+
+  .hb-vote-widget a.hb-link {
+    margin: 8px 0;
+    display: block;
+  }
+
+  .hb-vote-widget {
+    background: rgba(0,0,0,0.5);
+  }
 }
+
