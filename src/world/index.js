@@ -137,7 +137,7 @@ export default class World extends React.Component {
         player = this.state.player;
         player.health -= 5;
         if(player.health <= 0) {
-          alert("YOU ARE DEAD !!");
+          this.props.closeGame();
         }
         return;
       }

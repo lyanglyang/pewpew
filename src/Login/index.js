@@ -16,7 +16,7 @@ class Login extends React.Component {
     }
   }
 
-  handleLogin = async (e)=>{
+  handleLogin = (e)=>{
     e.preventDefault();
     //callApi({
       //name: this.refs.name.value
@@ -26,8 +26,7 @@ class Login extends React.Component {
       alert("name is empty")
     }
     else{
-      await this.connectBackand(name);
-      this.props.setSession();
+      this.connectBackand(name);
     }
   };
 
@@ -35,11 +34,11 @@ class Login extends React.Component {
     this.setState({defaultName: e.target.value})
   };
 
-  connectBackand = async (name) => {
+  connectBackand = (name) => {
     const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
-    await backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
+    backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
       .then(res => {
-        localStorage.setItem('BACKAND_RESPONSE',JSON.stringify(res.data));
+        this.props.setSession(res.data);
       })
       .catch(err => {
         console.log(err);

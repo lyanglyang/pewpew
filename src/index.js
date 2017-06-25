@@ -13,24 +13,18 @@ class Main extends React.Component {
 
   constructor(){
     super();
-    let response = {};
-    if (!_.isEmpty(localStorage.getItem('BACKAND_RESPONSE'))){
-      response = JSON.parse(localStorage.getItem('BACKAND_RESPONSE'))
-    }
     this.state = {
       gameOver: false,
-      response: response,
+      response: {},
     }
   }
 
-  setSession = ()=>{
-    let response = JSON.parse(localStorage.getItem('BACKAND_RESPONSE'));
+  setSession = (response)=>{
     this.setState({response: response, gameOver: false})
   };
 
   clearSession = () =>{
     backand.signout().then(()=> console.log('nothing'));
-    localStorage.setItem('BACKAND_RESPONSE', JSON.stringify({}));
     this.setState({response: {}, gameOver: false})
   };
 
