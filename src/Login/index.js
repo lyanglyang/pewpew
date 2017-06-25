@@ -4,8 +4,8 @@ import React from 'react';
 import controlsHOC from '../common/controlsHOC';
 
 // backand
-import backand from '@backand/vanilla-sdk';
 import axios from 'axios';
+import backand from '../common/Backand';
 
 class Login extends React.Component {
 
@@ -36,7 +36,6 @@ class Login extends React.Component {
     backand.on('items_updated', function (data) {
       console.log('items_updated');
       console.log(data);
-      debugger
     });
     setInterval(() => {
       axios.get('https://api.backand.com/1/function/general/game');
@@ -47,15 +46,9 @@ class Login extends React.Component {
     this.setState({defaultName: e.target.value})
   };
 
-  connectBackand = (name) => {
+  connectBackand = async (name) => {
     const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
-    backand.init({
-      appName: 'pewpew',
-      signUpToken: "cf706c34-ce4b-45f1-80c0-2a517fef995b",
-      anonymousToken: ANONYMOUS_TOKEN,
-      runSocket: true,
-    });
-    backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
+    await backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
       .then(res => {
         localStorage.setItem('BACKAND_RESPONSE',JSON.stringify(res.data));
       })
@@ -75,7 +68,7 @@ class Login extends React.Component {
           <div className="form-row">
           <input autoFocus={true} type="text" placeholder="Name" value={this.state.defaultName} onChange={this.handleChange} /></div>
           <div className="form-row"><button type="submit" className="login-btn">Play</button></div>
-          <div className="form-row"><button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button></div>        
+          <div className="form-row"><button type="button" onClick={this.props.goToControls} className="controls-btn">Controls</button></div>
         </form>
       </div>)
   }

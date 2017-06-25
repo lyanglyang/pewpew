@@ -3,9 +3,9 @@ import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
-import backand from '@backand/vanilla-sdk';
-import axios from 'axios';
 
+import axios from 'axios';
+import backand from '../common/Backand';
 
 import {
   detectCollision
