@@ -3,14 +3,8 @@ import React, {Component} from 'react';
 import World from './world';
 //constants
 import GLOBAL from './constants';
-
-const ERRORS = {
-  AUDIOPERMISSIONDENIED: "PermissionDeniedError"
-};
-
-const MESSAGES = {
-  NEEDSAUDIOPERMISSION: "You need to provide audio access for this game to work."
-};
+import ERRORS from './constants/errors';
+import MESSAGES from './constants/messages';
 
 let constraints = {audio: true};
 
@@ -45,7 +39,7 @@ getAudioPermission.then(function (stream) {
 
     let voiceLevel = sum / freqByteData.length;
     if (voiceLevel > 30) {
-      console.log(voiceLevel);
+      // console.log(voiceLevel);
     }
   }, 200);
 
@@ -56,27 +50,22 @@ getAudioPermission.then(function (stream) {
 
 }).catch(function (err) {
   console.log(err);
-  if (err.name === ERRORS.AUDIOPERMISSIONDENIED) {
-    alert(MESSAGES.NEEDSAUDIOPERMISSION);
+  if (err.name === ERRORS.AUDIO_PERMISSION_DENIED) {
+    alert(MESSAGES.NEEDS_AUDIO_PERMISSION);
   }
 });
 
 class App extends Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  componentDidMount() {
-  }
-
-
-
   render() {
     return (
       <div>
-        User: {this.props.userName}
-        <World worldMap={GLOBAL.GAME_WORLD}/>
+        <div className="container">
+          <div className="hud">User: {this.props.userName}</div>
+        </div>
+        <div className="container">
+          <World worldMap={GLOBAL.GAME_WORLD}/>
+        </div>
       </div>
     );
   }
