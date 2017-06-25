@@ -135,6 +135,16 @@ html,#root{
   height: 120px;
   position: absolute;
   animation: float 6s infinite forwards;
+  &:after{
+    height: 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.17);
+    position: absolute;
+    bottom: -30px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: -1;
+  }
 }
 
 .snake {
@@ -143,6 +153,16 @@ html,#root{
   position: absolute;
   background-size: 30px 30px !important;
   animation: float 6s infinite forwards;
+  &:after{
+    height: 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.17);
+    position: absolute;
+    bottom: -30px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: -1;
+  }
 }
 
 
@@ -251,6 +271,13 @@ button.active {
   color: #fff;
   text-overflow: ellipsis;
   text-align: center;
+}
+
+.frog{
+  .player-name{
+    color: #3f51b5;
+    font-weight: 700;
+  }
 }
 
 .score-board{
