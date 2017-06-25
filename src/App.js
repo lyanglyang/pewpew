@@ -64,7 +64,11 @@ class App extends Component {
           <div className="hud">
             <div className="hud-column">User: {this.props.userName}</div>
             <div className="hud-column text-center">
-            <h1 className="title">Pew Pew</h1>
+              <h1 className="title">Pew Pew</h1>
+            </div>
+            <div className="hud-column text-center">
+              <span className="score">Your Score: 0</span>
+              <button className="close-btn">X</button>
             </div>
           </div>
         </div>
