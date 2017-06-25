@@ -71,7 +71,8 @@ export default class World extends React.Component {
       x: this.state.player.position.x,
       y: this.state.player.position.y,
       id: this.state.player.id,
-      name: this.state.player.name
+      name: this.state.player.name,
+      health: this.state.player.health
     }
   };
 
@@ -81,6 +82,7 @@ export default class World extends React.Component {
       _data[d['Key']] = d['Value']
     });
     return {
+      health: _data.health,
       position: {
         x: _data.x,
         y: _data.y
@@ -107,6 +109,27 @@ export default class World extends React.Component {
         return;
       }
       this.state.opponents[player.id] = player;
+      this.setState({
+        opponents: this.state.opponents
+      });
+    });
+    backand.on('player-hit', (data) => {
+      let player = this.sanitizePlayerJsonData(data);
+      if (player.id === this.state.player.id) {
+        player = this.state.player;
+        player.health -= 5;
+        if(player.health <= 0) {
+          alert("YOU ARE DEAD !!");
+        }
+        return;
+      }
+      let opponent = this.state.opponents[player.id];
+      opponent.health -= 5;
+      if(opponent.health <= 0) {
+        delete this.state.opponents[player.id];
+      } else {
+        this.state.opponents[player.id] = opponent;
+      }
       this.setState({
         opponents: this.state.opponents
       });
@@ -210,20 +233,20 @@ export default class World extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       height: (GLOBAL.CELL_SIZE / 4)
     };
-    for (let i = 0; i < this.state.opponents.length; i++) {
-      let opponent = this.state.opponents[i];
+    for (let opponentId in this.state.opponents) {
+      let opponent = this.state.opponents[opponentId];
       let tileDimensions = {
-        x: opponent.x * GLOBAL.CELL_SIZE,
-        y: opponent.y * GLOBAL.CELL_SIZE,
+        x: opponent.position.x * GLOBAL.CELL_SIZE,
+        y: opponent.position.y * GLOBAL.CELL_SIZE,
         width: (GLOBAL.CELL_SIZE / 4),
         height: (GLOBAL.CELL_SIZE / 4)
       };
       if (detectCollision(tileDimensions, frogDimensions)) {
-        let opponents = this.state.opponents;
-        opponents.splice(i, 1);
-        this.state.opponents = opponents;
-        this.setState({
-          opponents: this.state.opponents
+        axios.post('https://api.backand.com/1/function/general/game', {
+          eventName: 'player-hit',
+          player: {
+            id: opponentId
+          }
         });
         return false;
       }
