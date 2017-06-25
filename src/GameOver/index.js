@@ -23,7 +23,6 @@ export default class GameOver extends React.Component {
         <div className="score-container">
           <Scoreboard scores={this.props.scores}/>
         </div>
-        <div className="form-row"><button type="button" onClick={this.handleRestart} className="restart"> Restart </button></div>
         <div className="form-row"><button type="button" onClick={this.handleQuit} className="quit">Quit</button></div>
       </div>)
   }

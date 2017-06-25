@@ -57,7 +57,7 @@ export default class Opponent extends React.Component {
         <Line className="health-bar" percent={this.props.opponent.health} strokeWidth="4" strokeColor={this.checkColor()}/>
         {
           (this.props.opponent.swordAction.active) ?
-            <div className="sword-action-wrapper">
+            <div className= {"sword-action-wrapper direction-" + this.props.opponent.swordAction.movingDirection}>
               <div className="sword-action" style={this.getSwordActionStyle()}>
               </div>
             </div>

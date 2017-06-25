@@ -26,6 +26,7 @@ class Main extends React.Component {
 
   clearSession = () =>{
     backand.signout().then(()=> console.log('nothing'));
+    window.location.reload();
     this.setState({response: {}, gameOver: false})
   };
 

@@ -34,7 +34,8 @@ export default class Frog extends React.Component {
     this.props.pewpew({
       x: this.props.player.position.x + (swordDirection['left'] / 4),
       y: this.props.player.position.y + (swordDirection['top'] / 4),
-      swordDirection: swordDirection
+      swordDirection: swordDirection,
+      movingDirection: this.movingDirection
     });
     this.punchCooldownActive = true;
     setTimeout(()=> {
