@@ -16,7 +16,7 @@ export default function controlsHOC(WrappedComponent){
 
 
     render(){
-      return this.state.controls? <Controls goBack={this.handleControls}/> : <WrappedComponent goToControls={this.handleControls}/>
+      return this.state.controls? <Controls goBack={this.handleControls}/> : <WrappedComponent goToControls={this.handleControls} {...this.props}/>
     }
   }
 }
