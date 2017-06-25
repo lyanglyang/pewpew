@@ -134,7 +134,8 @@ html,#root{
   width: 120px;
   height: 120px;
   position: absolute;
-  background: green;
+  background:  url('/assets/images/spritesheet_spaceships.png') 1px 5px;
+  background-size: 120px 120px;
 }
 
 .snake {
@@ -142,6 +143,8 @@ html,#root{
   height: 20px;
   position: absolute;
   background: red;
+  background:  url('/assets/images/spritesheet_spaceships.png') -29px 89px;
+  background-size: 120px 120px;
 }
 
 
