@@ -1,37 +1,44 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  &:after{
-    content:"";
+  &:after {
+    content: "";
     clear: both;
     display: block;
   }
 }
+
 @import url('https://fonts.googleapis.com/css?family=Amaranth:400,700');
-html{
+html {
   background: #009688;
 }
-body{
+
+body {
   font-family: 'Amaranth', sans-serif;
 }
-html,#root{
+
+html, #root {
   height: 100%;
 }
-#root{
-  > div{
+
+#root {
+  > div {
     height: 100%;
   }
 }
-.container{
+
+.container {
   width: 1080px;
   margin: 0 auto;
 }
-.title{
+
+.title {
   font-size: 36px;
   color: #582828;
 }
-.login-container{
+
+.login-container {
   width: 500px;
   margin: 10% auto 0;
   text-align: center;
@@ -42,18 +49,19 @@ html,#root{
   padding: 50px 30px;
   height: auto !important;
   color: #582828;
-  h1{
+  h1 {
     margin-bottom: 50px;
   }
 }
-.hud{
+
+.hud {
   background: #f1f1d9;
   border-radius: 10px;
   box-shadow: 0 6px #9d8c7a;
-  margin: 10px 0 20px ;
+  margin: 10px 0 20px;
   display: flex;
   align-items: center;
-  &-column{
+  &-column {
     padding: 5px 15px;
     font-size: 18px;
     float: left;
@@ -62,10 +70,11 @@ html,#root{
     overflow: hidden;
     white-space: nowrap;
   }
-  h1{
+  h1 {
     font-size: 28px;
   }
 }
+
 .world-container {
   position: relative;
   border: 10px solid #f1f1d9;
@@ -84,47 +93,58 @@ html,#root{
   width: 120px;
   height: 120px;
 }
-.block-5{
+
+.block-5 {
   text-indent: -9999px;
   background: url('/assets/images/camp.png') no-repeat;
 }
-.block-4{
+
+.block-4 {
   text-indent: -9999px;
   background: url('/assets/images/windmill.png') no-repeat;
 }
-.block-6{
+
+.block-6 {
   text-indent: -9999px;
   background: url('/assets/images/grave.png') no-repeat;
 }
-.block-7{
+
+.block-7 {
   text-indent: -9999px;
   background: url('/assets/images/rubble.png') no-repeat;
 }
-.block-8{
+
+.block-8 {
   text-indent: -9999px;
   background: url('/assets/images/rockky.png') no-repeat;
 }
-.block-9{
+
+.block-9 {
   text-indent: -9999px;
   background: url('/assets/images/rockky.png') no-repeat;
   transform: rotateY(180deg);
 }
-.block-10{
+
+.block-10 {
   text-indent: -9999px;
   background: url('/assets/images/barn.png') no-repeat;
 }
-.block-11{
+
+.block-11 {
   text-indent: -9999px;
   background: url('/assets/images/rock-2.png') no-repeat;
 }
+
 .block-1 {
   text-indent: -9999px;
   background: url('/assets/images/green-carpet.png') no-repeat;
 }
-.block-3{
+
+.block-3 {
   text-indent: -9999px;
   background: url('/assets/images/lush-forest.png') no-repeat;
 }
+
 .block-2 {
   text-indent: -9999px;
   background: url('/assets/images/dense-forest.png') no-repeat;
@@ -135,7 +155,7 @@ html,#root{
   height: 120px;
   position: absolute;
   animation: float 6s infinite forwards;
-  &:after{
+  &:after {
     height: 10px;
     width: 100%;
     background: rgba(0, 0, 0, 0.17);
@@ -153,7 +173,7 @@ html,#root{
   position: absolute;
   background-size: 30px 30px !important;
   animation: float 6s infinite forwards;
-  &:after{
+  &:after {
     height: 10px;
     width: 100%;
     background: rgba(0, 0, 0, 0.17);
@@ -164,7 +184,6 @@ html,#root{
     z-index: -1;
   }
 }
-
 
 .sword-action-wrapper {
   position: relative;
@@ -190,10 +209,12 @@ button {
   text-shadow: 0px 3px 2px rgba(150, 150, 150, 1);
   cursor: pointer;
 }
-.form-row{
+
+.form-row {
   margin-top: 20px;
 }
-input{
+
+input {
   font-family: 'Amaranth', sans-serif;
   font-weight: 700;
   min-width: 200px;
@@ -204,12 +225,13 @@ input{
   font-size: 24px;
   box-shadow: 0 6px #006071;
   text-align: center;
-  &:focus{
-    outline:none;
-    border:  3px solid #005d70;
+  &:focus {
+    outline: none;
+    border: 3px solid #005d70;
   }
 }
-button:focus{
+
+button:focus {
   outline: none;
 }
 
@@ -225,11 +247,11 @@ button.active {
   transform: translateY(5px);
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.score{
+.score {
   display: inline-block;
   vertical-align: top;
   text-overflow: ellipsis;
@@ -238,7 +260,8 @@ button.active {
   width: 90%;
   text-align: left;
 }
-.close-btn{
+
+.close-btn {
   width: 10%;
   min-width: auto;
   font-family: 'Amaranth', sans-serif;
@@ -250,7 +273,7 @@ button.active {
   padding: 2px 10px 0;
 }
 
-.health-bar{
+.health-bar {
   position: absolute;
   top: 38px;
   height: 22%;
@@ -259,7 +282,7 @@ button.active {
   border: 1px solid #3F51B5;
 }
 
-.player-name{
+.player-name {
   position: absolute;
   top: -25px;
   white-space: nowrap;
@@ -273,23 +296,23 @@ button.active {
   text-align: center;
 }
 
-.frog{
-  .player-name{
+.frog {
+  .player-name {
     color: #3f51b5;
     font-weight: 700;
   }
 }
 
-.score-board{
+.score-board {
   position: absolute;
   top: 0;
   right: -10px;
   z-index: 999;
-  background: rgba(241, 241, 217,0.5);
+  background: rgba(241, 241, 217, 0.5);
   max-height: 85px;
   overflow-y: auto;
   border-radius: 6px;
-  td{
+  td {
     padding: 2px 10px 2px 5px;
     font-size: 12px;
     max-width: 120px;
@@ -300,60 +323,68 @@ button.active {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 @keyframes float {
   25%,
-  70% {transform: translateY(10px);}
+  70% {
+    transform: translateY(10px);
+  }
   50%,
-  95% {transform: translateY(0px);}
+  95% {
+    transform: translateY(0px);
+  }
 }
 
-.alertbox{
-    max-width: 300px;
-    background: rgba(241, 241, 217, 0.71);
-    border-radius: 10px;
-    box-shadow: 0 6px #9d8c7a;
-    word-wrap: break-word;
-    padding: 15px;
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    z-index: 999;
-    transform: translateX(-50%);
-    letter-spacing: 2px;
-    transition: all 0.3s ease-in-out;
+.alertbox {
+  max-width: 300px;
+  background: rgba(241, 241, 217, 0.71);
+  border-radius: 10px;
+  box-shadow: 0 6px #9d8c7a;
+  word-wrap: break-word;
+  padding: 15px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  z-index: 999;
+  transform: translateX(-50%);
+  letter-spacing: 2px;
+  transition: all 0.3s ease-in-out;
 }
-.direction{
+
+.direction {
   //left
-  &-1{
+  &-1 {
     .sword-action {
       transform: rotate(-90deg);
     }
   }
   //right
-  &-2{
+  &-2 {
     .sword-action {
       transform: rotate(90deg);
     }
   }
   //down
-  &-4{
+  &-4 {
     .sword-action {
       transform: rotate(180deg);
     }
   }
 }
 
-.game-list{
+.game-list {
   list-style: none;
   margin-bottom: 30px;
-  li{
+  li {
     margin-bottom: 10px;
   }
 }
 
-#hackbit-vote-widget{
- margin-top: 14px;
+#hackbit-vote-widget {
+  width: 170px;
+  position: absolute;
+  top: 90px;
+  right: 4px;
 }
