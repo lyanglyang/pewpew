@@ -2,7 +2,6 @@
   "name": "reactriot2017-pewpew",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hackbit.github.io/reactriot2017-pewpew",
   "dependencies": {
     "@backand/vanilla-sdk": "^1.2.5",
     "axios": "^0.16.2",
