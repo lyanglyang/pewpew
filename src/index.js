@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import Login from './Login';
 import GameOver from './GameOver';
-import NotFoundRoute from './NotFoundRoute';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import _ from 'lodash';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -13,31 +12,35 @@ class Main extends React.Component {
 
   constructor(){
     super();
+    let response = {};
+    if (!_.isEmpty(localStorage.getItem('BACKAND_RESPONSE'))){
+      response = JSON.parse(localStorage.getItem('BACKAND_RESPONSE'))
+    }
     this.state = {
-      userActive: true,
       gameOver: false,
-      userName: 'Sudhir'
+      response: response,
     }
   }
 
-  setSession = (name)=>{
-    this.setState({userName: name, userActive: true})
+  setSession = ()=>{
+    let response = JSON.parse(localStorage.getItem('BACKAND_RESPONSE'));
+    this.setState({response: response})
   };
 
   clearSession = () =>{
-    this.setState({userName: '', userActive: false})
+    localStorage.setItem('BACKAND_RESPONSE', JSON.stringify({}));
+    this.setState({response: {}})
   };
 
   render() {
-
-    if(!this.state.userActive){
+    if(!this.state.response.access_token ){
       return <Login setSession={this.setSession}/>
     }
     else if (this.state.gameOver){
       return <GameOver clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
     }
     else {
-      return <App userName={this.state.userName}/>
+      return <App response={this.state.response} userName={this.state.response.firstName}/>
     }
   }
 }
