@@ -4,7 +4,6 @@ export default class Scoreboard extends React.Component {
 
   render() {
     let scores = this.props.scores || [];
-    console.log(scores);
     return (
       <div className="score-board">
         <table>

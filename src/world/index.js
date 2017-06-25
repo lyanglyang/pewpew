@@ -75,6 +75,7 @@ export default class World extends React.Component {
   }
 
   buildPlayerJson = () => {
+
     return {
       x: this.state.player.position.x,
       y: this.state.player.position.y,
@@ -84,6 +85,7 @@ export default class World extends React.Component {
       swdl: this.state.player.swordAction.swordDirection.left,
       swdt: this.state.player.swordAction.swordDirection.top,
       swaa: this.state.player.swordAction.active,
+      swad: this.state.player.swordAction.movingDirection,
       score: this.state.player.score,
       isActive: this.state.player.isActive,
       rand: this.state.player.rand,
@@ -106,7 +108,8 @@ export default class World extends React.Component {
         swordDirection: {
           left: _data.swdl,
           top: _data.swdt
-        }
+        },
+        movingDirection: _data.swad,
       },
       id: _data.id,
       score: _data.score,
@@ -119,6 +122,7 @@ export default class World extends React.Component {
   setBackandEvents = () => {
     backand.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
+
       if (player.id === this.state.player.id) {
         return;
       }
@@ -273,7 +277,7 @@ export default class World extends React.Component {
     return false;
   }
 
-  pewpew({x, y, swordDirection}) {
+  pewpew({x, y, swordDirection, movingDirection}) {
     if(!this.state.player.isActive) {
       return;
     }
@@ -286,7 +290,8 @@ export default class World extends React.Component {
 
     this.state.player.swordAction = {
       active: true,
-      swordDirection: swordDirection
+      swordDirection: swordDirection,
+      movingDirection: movingDirection
     };
     this.setState({
       player: this.state.player
