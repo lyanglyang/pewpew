@@ -73,6 +73,17 @@ export default class World extends React.Component {
     let startingPlayerPosition = POSSIBLE_SPAWN_POINTS[Math.floor(Math.random() * 5) + 0];
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
+    setInterval(()=> {
+      if(this.state.player.health <= 100) {
+        this.state.player.health += 4;
+        if(this.state.player.health > 100) {
+          this.state.player.health = 100;
+        }
+        this.setState({
+          player: this.state.player
+        });
+      }
+    }, 2000);
   }
 
   setInteractiveText(text, priority) {
