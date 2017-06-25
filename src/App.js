@@ -63,23 +63,18 @@ getAudioPermission.then(function (stream) {
 
 class App extends Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
-
-  componentDidMount() {
-  }
-
-
-
-  render() {
-    return (
-      <div>
-        User: {this.props.userName}
-        <World worldMap={GLOBAL.GAME_WORLD}/>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <div className="container">
+                  <div className="hud">User: {this.props.userName}</div>
+                </div>
+                <div className="container">
+                  <World worldMap={GLOBAL.GAME_WORLD}/>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
