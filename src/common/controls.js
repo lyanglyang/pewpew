@@ -4,11 +4,11 @@ export default class Controls extends React.Component {
 
   render() {
     return (
-      <div className="login-containter">
-        <div className="title">
+      <div className="login-container">
+        <h1 className="title">
           Pew Pew
-        </div>
-      <div className="login-containter">
+        </h1>
+      <div>
         Up
         Down
         left

@@ -3,27 +3,17 @@ import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
-import backand from '@backand/vanilla-sdk';
+import backand from '../common/Backand';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
+
 
 import {
   detectCollision
 } from '../utils/geometry';
 
-const tileObject = {
-  0: {},
-  1: {},
-  2: {
-    rigid: true
-  },
-  3: {
-    rigid: true
-  },
-  5: {
-    rigid: true
-  }
-};
+const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
+axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
 export default class World extends React.Component {
 
@@ -69,6 +59,7 @@ export default class World extends React.Component {
   };
 
   componentDidMount() {
+    this.connectBackand();
     this.setScreenDimensions({x: 9, y: 5});
     let startingPlayerPosition = {
       x: 2,
@@ -76,7 +67,6 @@ export default class World extends React.Component {
     };
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
-    this.connectBackand();
   }
 
   getRelativePosition({x, y}) {
@@ -87,20 +77,7 @@ export default class World extends React.Component {
   }
 
   connectBackand = () => {
-    const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
-    backand.init({
-      appName: 'pewpew',
-      signUpToken: "cf706c34-ce4b-45f1-80c0-2a517fef995b",
-      anonymousToken: ANONYMOUS_TOKEN,
-      runSocket: true,
-    });
-    backand.signup(`guest${new Date().getTime()}`, "user", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
-      .then(res => {
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
+
     axios.post('https://api.backand.com/1/function/general/game', {
       eventName: 'new-player',
       player: {
@@ -126,7 +103,7 @@ export default class World extends React.Component {
         },
         id: _data.id
       };
-      if(_data.id === this.state.player.id) {
+      if (_data.id === this.state.player.id) {
         return;
       }
       this.state.opponents[player.id] = player;
@@ -136,6 +113,7 @@ export default class World extends React.Component {
 
     });
     backand.on('player-update', (data) => {
+      console.log("jerer",data)
       let _data = {};
       data[1]['Value'].forEach((d) => {
         _data[d['Key']] = d['Value']
@@ -147,7 +125,7 @@ export default class World extends React.Component {
         },
         id: _data.id
       };
-      if(_data.id === this.state.player.id) {
+      if (_data.id === this.state.player.id) {
         return;
       }
       this.state.opponents[player.id] = player;
@@ -304,3 +282,17 @@ export default class World extends React.Component {
     )
   }
 }
+
+const tileObject = {
+  0: {},
+  1: {},
+  2: {
+    rigid: true
+  },
+  3: {
+    rigid: true
+  },
+  5: {
+    rigid: true
+  }
+};

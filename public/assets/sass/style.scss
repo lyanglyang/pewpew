@@ -9,11 +9,13 @@
   }
 }
 @import url('https://fonts.googleapis.com/css?family=Amaranth:400,700');
-
+html{
+  background: #009688;
+}
 body{
   font-family: 'Amaranth', sans-serif;
 }
-body,html,#root{
+html,#root{
   height: 100%;
 }
 #root{
@@ -22,14 +24,55 @@ body,html,#root{
   }
 }
 .container{
-  width: 1280px;
+  width: 1080px;
   margin: 0 auto;
+}
+.title{
+  font-size: 36px;
+  color: #582828;
+}
+.login-container{
+  width: 500px;
+  margin: 10% auto 0;
+  text-align: center;
+  background: #f1f1d9;
+  border-radius: 10px;
+  box-shadow: 0 10px #9d8c7a;
+  overflow: hidden;
+  padding: 50px 30px;
+  height: auto !important;
+  color: #582828;
+  h1{
+    margin-bottom: 50px;
+  }
+}
+.hud{
+  background: #f1f1d9;
+  border-radius: 10px;
+  box-shadow: 0 6px #9d8c7a;
+  margin: 10px 0 20px ;
+  display: flex;
+  align-items: center;
+  &-column{
+    padding: 5px 15px;
+    font-size: 18px;
+    float: left;
+    width: 33.33%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  h1{
+    font-size: 28px;
+  }
 }
 .world-container {
   position: relative;
-  border: 20px solid #663399;
-  border-radius: 10px;
+  border: 10px solid #f1f1d9;
   overflow: hidden;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 10px #9d8c7a;
 }
 
 .tile-map {
@@ -45,9 +88,34 @@ body,html,#root{
   text-indent: -9999px;
   background: url('/assets/images/camp.png') no-repeat;
 }
-.block-6{
+.block-4{
   text-indent: -9999px;
   background: url('/assets/images/windmill.png') no-repeat;
+}
+.block-6{
+  text-indent: -9999px;
+  background: url('/assets/images/grave.png') no-repeat;
+}
+.block-7{
+  text-indent: -9999px;
+  background: url('/assets/images/rubble.png') no-repeat;
+}
+.block-8{
+  text-indent: -9999px;
+  background: url('/assets/images/rockky.png') no-repeat;
+}
+.block-9{
+  text-indent: -9999px;
+  background: url('/assets/images/rockky.png') no-repeat;
+  transform: rotateY(180deg);
+}
+.block-10{
+  text-indent: -9999px;
+  background: url('/assets/images/barn.png') no-repeat;
+}
+.block-11{
+  text-indent: -9999px;
+  background: url('/assets/images/rock-2.png') no-repeat;
 }
 .block-1 {
   text-indent: -9999px;
@@ -84,4 +152,79 @@ body,html,#root{
 .sword-action {
   background: blue;
   position: absolute;
+}
+
+button {
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  min-width: 200px;
+  padding: 12px 15px;
+  font-size: 20px;
+  color: #fff;
+  background-color: #42a19b;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 6px #006071;
+  text-shadow: 0px 3px 2px rgba(150, 150, 150, 1);
+  cursor: pointer;
+}
+.form-row{
+  margin-top: 20px;
+}
+input{
+  font-family: 'Amaranth', sans-serif;
+  font-weight: 700;
+  min-width: 200px;
+  padding: 12px 15px;
+  border: 3px solid #005f71;
+  border-radius: 6px;
+  background: #e0e3c4;
+  font-size: 24px;
+  box-shadow: 0 6px #006071;
+  text-align: center;
+  &:focus{
+    outline:none;
+    border:  3px solid #005d70;
+  }
+}
+button:focus{
+  outline: none;
+}
+
+button:hover,
+button.hover {
+  background-color: #417cb8;
+}
+
+button:active,
+button.active {
+  background-color: #417cb8;
+  box-shadow: 0 5px #27496d;
+  transform: translateY(5px);
+}
+
+.text-center{
+  text-align: center;
+}
+
+.score{
+  display: inline-block;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 90%;
+  text-align: left;
+}
+.close-btn{
+  width: 10%;
+  min-width: auto;
+  font-family: 'Amaranth', sans-serif;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  float: right;
+  margin-top: -3px;
+  padding: 2px 10px 0;
 }
