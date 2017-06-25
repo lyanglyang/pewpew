@@ -427,7 +427,31 @@ const tileObject = {
   3: {
     rigid: true
   },
+  4: {
+    rigid: true
+  },
   5: {
+    rigid: true
+  },
+  6: {
+    rigid: true
+  },
+  7: {
+    rigid: true
+  },
+  8: {
+    rigid: true
+  },
+  9: {
+    rigid: true
+  },
+  10: {
+    rigid: true
+  },
+  11: {
+    rigid: true
+  },
+  12: {
     rigid: true
   }
 };
