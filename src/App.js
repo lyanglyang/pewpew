@@ -70,16 +70,20 @@ class App extends Component {
   componentDidMount() {
   }
 
+class App extends Component {
 
-
-  render() {
-    return (
-      <div>
-        User: {this.props.userName}
-        <World worldMap={GLOBAL.GAME_WORLD}/>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <div className="container">
+                  <div className="hud">User: {this.props.userName}</div>
+                </div>
+                <div className="container">
+                  <World worldMap={GLOBAL.GAME_WORLD}/>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;

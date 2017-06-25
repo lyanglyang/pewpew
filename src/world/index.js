@@ -1,6 +1,7 @@
 import React from 'react';
 import TileMap from '../tile-map';
 import Frog from '../common/frog';
+<<<<<<< Updated upstream
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
 import backand from '@backand/vanilla-sdk';
@@ -21,6 +22,8 @@ const tileObject = {
     rigid: true
   },
 };
+=======
+>>>>>>> Stashed changes
 
 export default class World extends React.Component {
 
@@ -31,19 +34,10 @@ export default class World extends React.Component {
       visibleTileMap: [],
       cameraFocusPoint: {},
 
-      bulletFired: false,
-
       player: {
         relativePosition: {},
         position: {}
-      },
-
-      opponents: [
-        {x: 1, y: 1},
-        {x: 3, y: 3},
-        {x: 5, y: 5}
-      ]
-
+      }
     };
 
     this.screenDimensions = {};
@@ -53,24 +47,13 @@ export default class World extends React.Component {
     this.setVisibleMap = this.setVisibleMap.bind(this);
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
+    this.setKeyBindings = this.setKeyBindings.bind(this);
     this.setPlayerPosition = this.setPlayerPosition.bind(this);
-    this.checkFrogCollision = this.checkFrogCollision.bind(this);
   }
 
-  updatePosition = (index) => {
-    var cloneState = Object.assign({}, this.state);
-    cloneState.opponents = cloneState.opponents.slice();
-    cloneState.opponents[index] = Object.assign({}, cloneState.opponents[index]);
-    if (cloneState.opponents[index].y > 20) {
-      cloneState.opponents[index].x += 1;
-    } else {
-      cloneState.opponents[index].y += 1;
-    }
-    this.setState(cloneState);
-  };
-
   componentDidMount() {
-    this.setScreenDimensions({size: 5});
+    this.setScreenDimensions({size: 10});
+    this.setKeyBindings();
     let startingPlayerPosition = {
       x: 2,
       y: 2
@@ -119,15 +102,12 @@ export default class World extends React.Component {
   setPlayerPosition({x, y}) {
     //BOUNDARY LIMIT VALIDATION
     if (x < 0 || x > (this.props.worldMap[0].length - 1) || y < 0 || y > (this.props.worldMap.length - 1)) {
-      return;
+      return false
     }
     let position = {
       x: x,
       y: y
     };
-    if (this.checkFrogCollision(position)) {
-      return;
-    }
     this.state.player.position = position;
     this.state.player.relativePosition = this.getRelativePosition(position);
     this.setState({
@@ -148,6 +128,35 @@ export default class World extends React.Component {
       top: this.screenDimensions.radius,
       bottom: (this.props.worldMap.length - this.screenDimensions.radius - 1)
     };
+  }
+
+  setKeyBindings() {
+    document.onkeydown = (e) => {
+      e = e || window.event;
+      let playerPosition = Object.assign({}, this.state.player.position);
+      switch (e.which || e.keyCode) {
+        case 37:
+          playerPosition.x -= 1;
+          break;
+
+        case 39:
+          playerPosition.x += 1;
+          break;
+
+        case 38:
+          playerPosition.y -= 1;
+          break;
+
+        case 40:
+          playerPosition.y += 1;
+          break;
+
+        default:
+          return;
+          break;
+      }
+      this.setPlayerPosition(playerPosition);
+    }
   }
 
   setCameraFocus({x, y}) {
@@ -179,6 +188,7 @@ export default class World extends React.Component {
     });
   }
 
+<<<<<<< Updated upstream
   checkFrogCollision({x, y}) {
     let frogDimensions = {
       x: x * GLOBAL.CELL_SIZE,
@@ -235,17 +245,13 @@ export default class World extends React.Component {
     }
   }
 
+=======
+>>>>>>> Stashed changes
   render() {
     return (
       <div className="world-container">
         <TileMap tileMap={this.state.visibleTileMap}/>
-        <Frog player={this.state.player}
-              pewpew={this.pewpew.bind(this)}
-              setPlayerPosition={this.setPlayerPosition}/>
-        {this.state.opponents.map((position, index) =>
-          <Opponents key={index} updatePosition={this.updatePosition}
-                     index={index} position={this.getRelativePosition(position)}/>)
-        }
+        <Frog position={this.state.player.relativePosition}/>
       </div>
     )
   }
