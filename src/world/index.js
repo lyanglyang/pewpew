@@ -43,7 +43,8 @@ export default class World extends React.Component {
           }
         },
         score: 0,
-        isActive: true
+        isActive: true,
+        rand: Math.floor(Math.random() * 3) + 1
       },
 
       opponents: {},
@@ -85,7 +86,8 @@ export default class World extends React.Component {
       swdt: this.state.player.swordAction.swordDirection.top,
       swaa: this.state.player.swordAction.active,
       score: this.state.player.score,
-      isActive: this.state.player.isActive
+      isActive: this.state.player.isActive,
+      rand: this.state.player.rand,
     }
   };
 
@@ -110,7 +112,8 @@ export default class World extends React.Component {
       id: _data.id,
       score: _data.score,
       name: _data.name,
-      isActive: _data.isActive
+      isActive: _data.isActive,
+      rand: _data.rand,
     };
   };
 

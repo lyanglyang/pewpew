@@ -69,21 +69,27 @@ export default class Frog extends React.Component {
   }
 
   getCellStyle = () => {
+    let height = GLOBAL.CELL_SIZE / 4;
     return {
       left: GLOBAL.CELL_SIZE * this.props.player.relativePosition.x,
       top: GLOBAL.CELL_SIZE * this.props.player.relativePosition.y,
       height: (GLOBAL.CELL_SIZE / 4),
-      width: (GLOBAL.CELL_SIZE / 4)
+      width: (GLOBAL.CELL_SIZE / 4),
+      background: `url('/assets/images/cr-4.png')`,
+      backgroundSize: `${height}px ${height}px`,
     }
   };
 
   getSwordActionStyle = () => {
     let swordDirection = this.props.player.swordAction.swordDirection;
+    let height = GLOBAL.CELL_SIZE / 4;
     return {
       height: (GLOBAL.CELL_SIZE / 4),
       width: (GLOBAL.CELL_SIZE / 4),
       left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
       top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
+      background: `url('/assets/images/cr-4.png')`,
+      backgroundSize: `${height}px ${height}px`,
     }
   };
 
