@@ -1,5 +1,7 @@
 import React from 'react';
 import GLOBAL from '../constants';
+import ERRORS from '../constants/errors';
+import MESSAGES from '../constants/messages';
 import { Line } from 'rc-progress';
 
 export default class Frog extends React.Component {
@@ -33,6 +35,60 @@ export default class Frog extends React.Component {
   }
 
   setKeyBindings() {
+    let constraints = {audio: true};
+
+    var self = this;
+    var getAudioPermission = navigator.mediaDevices.getUserMedia(constraints);
+
+    getAudioPermission.then(function (stream) {
+      /* use the stream */
+      console.log('success');
+
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      var audioContext = new AudioContext();
+
+      var inputPoint = audioContext.createGain()
+
+      // Create an AudioNode from the stream
+      var mediaStreamSource = audioContext.createMediaStreamSource(stream);
+
+      mediaStreamSource.connect(inputPoint);
+
+      var analyserNode = audioContext.createAnalyser();
+      analyserNode.fftSize = 2048;
+      inputPoint.connect(analyserNode);
+
+      setInterval(function () {
+        var freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
+        analyserNode.getByteFrequencyData(freqByteData);
+
+        var sum = 0;
+        for (var i = 0; i < freqByteData.length; i++) {
+          sum += freqByteData[i];
+        }
+
+        let voiceLevel = sum / freqByteData.length;
+
+        if (voiceLevel > 10) {
+          if(!self.props.player.swordAction.active){
+            // console.log(voiceLevel)
+            self.pewpew()
+          }
+        }
+      }, 100);
+
+      // Connect it to destination to hear yourself
+      // or any other node for processing!
+      // mediaStreamSource.connect(audioContext.destination);
+
+
+    }).catch(function (err) {
+      console.log(err);
+      if (err.name === ERRORS.AUDIO_PERMISSION_DENIED) {
+        alert(MESSAGES.NEEDS_AUDIO_PERMISSION);
+      }
+    });
+
     document.onkeyup = (e) => {
       e = e || window.event;
       let playerPosition = Object.assign({}, this.props.player.position);
