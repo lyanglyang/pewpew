@@ -341,7 +341,6 @@ export default class World extends React.Component {
 
   render() {
     return (
-      <div>
         <div className="container">
           <div className="hud">
             <div className="hud-column">User: {this.props.userName}</div>
@@ -353,22 +352,21 @@ export default class World extends React.Component {
               <button className="close-btn" onClick={() => this.props.closeGame(this.getScores())}>X</button>
             </div>
           </div>
-        </div>
-        <div className="container">
-          <div className="world-container" style={this.getWorldStyle()}>
-            <TileMap tileMap={this.props.worldMap}
-                     cameraPosition={this.state.cameraFocusPoint}/>
-            <Frog player={this.state.player}
-                  pewpew={this.pewpew.bind(this)}
-                  setPlayerPosition={this.setPlayerPosition}/>
-            {
-              Object.keys(this.state.opponents).map((opponentKey, index) =>
-                <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
-                           index={index} opponent={this.state.opponents[opponentKey]}/>
-              )
-            }
-            <Scoreboard scores={this.getScores()}/>
-          </div>
+          <div className="container">
+            <div className="world-container" style={this.getWorldStyle()}>
+              <Scoreboard scores={this.getScores()}/>
+              <TileMap tileMap={this.props.worldMap}
+                       cameraPosition={this.state.cameraFocusPoint}/>
+              <Frog player={this.state.player}
+                    pewpew={this.pewpew.bind(this)}
+                    setPlayerPosition={this.setPlayerPosition}/>
+              {
+                Object.keys(this.state.opponents).map((opponentKey, index) =>
+                  <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
+                             index={index} opponent={this.state.opponents[opponentKey]}/>
+                )
+              }
+           </div>
         </div>
       </div>
     )
