@@ -41,7 +41,7 @@ export default class Frog extends React.Component {
   }
 
   setKeyBindings() {
-    document.onkeyup = (e) => {
+    document.onkeyup = ( e) => {
       e = e || window.event;
       let playerPosition = Object.assign({}, this.props.player.position);
       switch (e.which || e.keyCode) {
