@@ -241,3 +241,22 @@ button.active {
   top: -20px;
   white-space: nowrap;
 }
+
+.score-board{
+  position: absolute;
+  top: 0;
+  right: -10px;
+  z-index: 999;
+  background: rgba(241, 241, 217,0.5);
+  max-height: 85px;
+  overflow-y: auto;
+  border-radius: 6px;
+  td{
+    padding: 2px 10px 2px 5px;
+    font-size: 12px;
+  }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}

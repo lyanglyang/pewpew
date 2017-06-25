@@ -364,6 +364,7 @@ export default class World extends React.Component {
           </div>
           <div className="container">
             <div className="world-container" style={this.getWorldStyle()}>
+              <Scoreboard scores={this.getScores()}/>
               <TileMap tileMap={this.props.worldMap}
                        cameraPosition={this.state.cameraFocusPoint}/>
               <Frog player={this.state.player}
@@ -375,7 +376,6 @@ export default class World extends React.Component {
                              index={index} opponent={this.state.opponents[opponentKey]}/>
                 )
               }
-              <Scoreboard scores={this.getScores()}/>
            </div>
         </div>
       </div>
