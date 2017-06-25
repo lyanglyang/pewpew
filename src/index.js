@@ -47,7 +47,7 @@ class Main extends React.Component {
       return <Login setSession={this.setSession}/>
     }
     else if (this.state.gameOver){
-      return <GameOver scores={this.state.scores} clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
+      return <GameOver userName={this.state.response && this.state.response.firstName} scores={this.state.scores} clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
     }
     else {
       return <App response={this.state.response}
