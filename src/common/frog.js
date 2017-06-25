@@ -173,7 +173,7 @@ export default class Frog extends React.Component {
           <Line className="health-bar" percent={this.props.player.health} strokeWidth="4" strokeColor={this.checkColor()} />
           {
             (this.props.player.swordAction.active) ?
-              <div className="sword-action-wrapper">
+              <div className= {"sword-action-wrapper direction-" + this.props.player.swordAction.movingDirection}>
                 <div className="sword-action" style={this.getSwordActionStyle()}>
                 </div>
               </div>
