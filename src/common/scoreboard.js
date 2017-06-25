@@ -4,15 +4,14 @@ export default class Scoreboard extends React.Component {
 
   render() {
     let scores = this.props.scores || [];
-    console.log(scores);
     return (
       <div className="score-board">
         <table>
           <tbody>
           {
-            scores.map((score) => {
+            scores.map((score, index) => {
               return (
-                <tr>
+                <tr key={index}>
                   <td>{score.owner}:</td>
                   <td>{score.value}</td>
                 </tr>)
