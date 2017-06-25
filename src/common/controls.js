@@ -6,14 +6,17 @@ export default class Controls extends React.Component {
     return (
       <div className="login-container">
         <h1 className="title">
-          Pew Pew
+          Controls
         </h1>
       <div>
-        Up
-        Down
-        left
-        Right
-        and
+        <ul className="game-list">
+          <li><h3>Movement:</h3></li>
+          <li>Up, Down, Left and Right Arrow keys</li>
+        </ul>
+        <ul className="game-list">
+          <li><h3>Attack:</h3></li>
+          <li>Use your voice for firing</li>
+        </ul>
         <button type="button" className="back-btn" onClick={this.props.goBack}> Back </button>
       </div>
     </div>)
