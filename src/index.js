@@ -4,6 +4,7 @@ import App from './App';
 import Login from './Login';
 import GameOver from './GameOver';
 import _ from 'lodash';
+import backand from './common/Backand';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
@@ -24,12 +25,17 @@ class Main extends React.Component {
 
   setSession = ()=>{
     let response = JSON.parse(localStorage.getItem('BACKAND_RESPONSE'));
-    this.setState({response: response})
+    this.setState({response: response, gameOver: false})
   };
 
   clearSession = () =>{
+    backand.signout().then(()=> console.log('nothing'));
     localStorage.setItem('BACKAND_RESPONSE', JSON.stringify({}));
-    this.setState({response: {}})
+    this.setState({response: {}, gameOver: false})
+  };
+
+  closeGame = ()=>{
+    this.setState({gameOver: true});
   };
 
   render() {
@@ -40,7 +46,10 @@ class Main extends React.Component {
       return <GameOver clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
     }
     else {
-      return <App response={this.state.response} userName={this.state.response && this.state.response.firstName}/>
+      return <App response={this.state.response}
+                  userName={this.state.response && this.state.response.firstName}
+                  closeGame={this.closeGame}
+      />
     }
   }
 }

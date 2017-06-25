@@ -68,7 +68,7 @@ class App extends Component {
             </div>
             <div className="hud-column text-center">
               <span className="score">Your Score: 0</span>
-              <button className="close-btn">X</button>
+              <button className="close-btn" onClick={this.props.closeGame}>X</button>
             </div>
           </div>
         </div>
