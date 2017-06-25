@@ -1,5 +1,6 @@
 import React from 'react';
 import GLOBAL from '../constants';
+import { Line } from 'rc-progress';
 
 export default class Frog extends React.Component {
 
@@ -86,17 +87,28 @@ export default class Frog extends React.Component {
     }
   };
 
+  checkColor = ()=>{
+    if(this.props.player.health > 50)
+      return '#0f0';
+    else
+      return '#f00';
+  };
+
+
   render() {
     return (
-      <div className="frog" style={this.getCellStyle()}>
-        {
-          (this.props.player.swordAction.active) ?
-            <div className="sword-action-wrapper">
-              <div className="sword-action" style={this.getSwordActionStyle()}>
+        <div className="frog" style={this.getCellStyle()}>
+          <span className="player-name">{this.props.player.name}</span>
+          <Line className="health-bar" percent={this.props.player.health} strokeWidth="4" strokeColor={this.checkColor()} />
+          {
+            (this.props.player.swordAction.active) ?
+              <div className="sword-action-wrapper">
+                <div className="sword-action" style={this.getSwordActionStyle()}>
+                </div>
               </div>
-            </div>
-            : null
-        }
-      </div>)
+              : null
+          }
+        </div>
+    )
   }
 }

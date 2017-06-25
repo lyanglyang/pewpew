@@ -29,6 +29,7 @@ export default class World extends React.Component {
 
       player: {
         id: uuidv1(),
+        name: props.userName,
         relativePosition: {},
         position: {},
         health: 100,

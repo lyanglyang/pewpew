@@ -2,6 +2,7 @@ import React from 'react';
 
 //constants
 import GLOBAL from '../constants';
+import { Line } from 'rc-progress';
 
 export default class Opponent extends React.Component {
 
@@ -36,9 +37,18 @@ export default class Opponent extends React.Component {
     }
   };
 
+  checkColor = ()=>{
+    if(this.props.opponent.health > 50)
+      return '#0f0';
+    else
+      return '#f00';
+  };
+
   render() {
     return (
       <div className="snake" style={this.getCellStyle()}>
+        <span className="player-name">{this.props.opponent.name}</span>
+        <Line percent={this.props.opponent.health} strokeWidth="4" strokeColor={this.checkColor}/>
         {
           (this.props.opponent.swordAction.active) ?
             <div className="sword-action-wrapper">

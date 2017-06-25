@@ -5,6 +5,7 @@
   "dependencies": {
     "@backand/vanilla-sdk": "^1.2.5",
     "axios": "^0.16.2",
+    "rc-progress": "^2.1.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1",

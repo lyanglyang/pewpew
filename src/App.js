@@ -73,7 +73,7 @@ class App extends Component {
           </div>
         </div>
         <div className="container">
-          <World worldMap={GLOBAL.GAME_WORLD} closeGame={this.props.closeGame}/>
+          <World worldMap={GLOBAL.GAME_WORLD} {...this.props}/>
         </div>
       </div>
     );
