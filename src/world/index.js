@@ -24,12 +24,18 @@ const POSSIBLE_SPAWN_POINTS = [
   {x:4, y:4}
 ];
 
+const INTERACTIVE_TEXTS = {
+  dead: ["%s : Rest in Peace"],
+  damageDealt: ["%s is on fire"]
+};
+
 export default class World extends React.Component {
 
   constructor(props, context) {
     super(props, context);
 
     this.state = {
+      interactiveText: '',
       cameraFocusPoint: {},
       player: {
         id: uuidv1(),
@@ -117,6 +123,9 @@ export default class World extends React.Component {
         return;
       }
       if (player.health <= 0) {
+        this.setState({
+          interactiveText: INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.dead.length) + 0].replace("%s", player.name)
+        });
         delete this.state.opponents[player.id];
       } else {
         this.state.opponents[player.id] = player;
@@ -131,6 +140,10 @@ export default class World extends React.Component {
         player = this.state.player;
         player.health -= 10;
         if (player.health <= 0) {
+          this.state.player.isActive = false;
+          this.setState({
+            player: this.state.player
+          });
           this.props.closeGame(this.getScores());
         }
         return;
@@ -171,6 +184,9 @@ export default class World extends React.Component {
   };
 
   setPlayerPosition({x, y}) {
+    if(!this.state.player.isActive) {
+      return;
+    }
     //BOUNDARY LIMIT VALIDATION
     if (x < 0 || x > (this.props.worldMap[0].length - 1) || y < 0 || y > (this.props.worldMap.length - 1)) {
       return;
@@ -258,6 +274,9 @@ export default class World extends React.Component {
   }
 
   pewpew({x, y, swordDirection}) {
+    if(!this.state.player.isActive) {
+      return;
+    }
     let frogDimensions = {
       x: x * GLOBAL.CELL_SIZE,
       y: y * GLOBAL.CELL_SIZE,
@@ -303,6 +322,9 @@ export default class World extends React.Component {
             id: opponentId
           }
         });
+        this.setState({
+          interactiveText: INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * INTERACTIVE_TEXTS.damageDealt.length) + 0].replace("%s", this.state.player.name)
+        });
         this.state.player.score += 1;
         this.setState({
           player: this.state.player
@@ -342,6 +364,7 @@ export default class World extends React.Component {
   render() {
     return (
         <div className="container">
+          <p>{this.state.interactiveText}</p>
           <div className="hud">
             <div className="hud-column">User: {this.props.userName}</div>
             <div className="hud-column text-center">
