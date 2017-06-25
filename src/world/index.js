@@ -17,7 +17,7 @@ axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
 const POSSIBLE_SPAWN_POINTS = [
   {x: 3, y: 5},
-  {x: 10, y: 10},
+  {x: 9, y: 9},
   {x: 10, y: 4},
   {x: 10, y: 13},
   {x: 14, y: 1},
@@ -202,7 +202,6 @@ export default class World extends React.Component {
   };
 
   setPlayerPosition({x, y}) {
-    console.log(x, y, 1111);
     if (!this.state.player.isActive) {
       return;
     }
