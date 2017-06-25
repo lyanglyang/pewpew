@@ -26,7 +26,8 @@ const POSSIBLE_SPAWN_POINTS = [
 
 const INTERACTIVE_TEXTS = {
   dead: ["%s : Rest in Peace"],
-  damageDealt: ["%s is on fire"]
+  damageDealt: ["Pew pew pew"],
+  underAttack: ["Taking fire needs assitance"],
 };
 
 export default class World extends React.Component {
@@ -157,6 +158,7 @@ export default class World extends React.Component {
       if (player.id === this.state.player.id) {
         player = this.state.player;
         player.health -= 10;
+        this.setInteractiveText(INTERACTIVE_TEXTS.underAttack[Math.floor(Math.random() * INTERACTIVE_TEXTS.underAttack.length) + 0].replace("%s", player.name));
         if (player.health <= 0) {
           this.state.player.isActive = false;
           this.setState({
