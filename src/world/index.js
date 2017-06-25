@@ -50,7 +50,6 @@ export default class World extends React.Component {
     this.cameraBarrierPoints = {};
     this.mapStartPoints = {};
 
-    this.setVisibleMap = this.setVisibleMap.bind(this);
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setPlayerPosition = this.setPlayerPosition.bind(this);
@@ -70,10 +69,10 @@ export default class World extends React.Component {
   };
 
   componentDidMount() {
-    this.setScreenDimensions({size: 5});
+    this.setScreenDimensions({x: 9, y: 5});
     let startingPlayerPosition = {
-      x: 2,
-      y: 2
+      x: 0,
+      y: 0
     };
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
@@ -111,7 +110,7 @@ export default class World extends React.Component {
       console.log('items_updated');
       console.log(data);
     });
-    setInterval(()=> {
+    setInterval(() => {
       axios.get('https://api.backand.com/1/function/general/game');
     }, 1000)
   };
@@ -128,56 +127,48 @@ export default class World extends React.Component {
     if (this.checkFrogCollision(position)) {
       return;
     }
+    this.setCameraFocus(position);
     this.state.player.position = position;
-    this.state.player.relativePosition = this.getRelativePosition(position);
+    this.state.player.relativePosition = {
+      x: (position.x - this.state.cameraFocusPoint.x),
+      y: (position.y - this.state.cameraFocusPoint.y)
+    } ;
     this.setState({
       player: this.state.player
     });
-    this.setCameraFocus(position);
-    console.log(this.state.player.position, this.mapStartPoints, this.state.player.relativePosition)
   }
 
-  setScreenDimensions({size}) {
+  setScreenDimensions({x, y}) {
     this.screenDimensions = {
-      size: size,
-      radius: (size - 1) / 2
+      x: x,
+      y: y,
+      xradius: (x - 1) / 2,
+      yradius: (y - 1 ) / 2
     };
     this.cameraBarrierPoints = {
-      left: this.screenDimensions.radius,
-      right: (this.props.worldMap[0].length - this.screenDimensions.radius - 1),
-      top: this.screenDimensions.radius,
-      bottom: (this.props.worldMap.length - this.screenDimensions.radius - 1)
+      left: this.screenDimensions.xradius,
+      right: (this.props.worldMap[0].length - this.screenDimensions.xradius - 1),
+      top: this.screenDimensions.yradius,
+      bottom: (this.props.worldMap.length - this.screenDimensions.yradius - 1)
     };
   }
 
   setCameraFocus({x, y}) {
     let cameraFocus = {};
     let cameraBarrierPoints = this.cameraBarrierPoints;
+    console.log(cameraBarrierPoints)
 
-    cameraFocus.x = (x > cameraBarrierPoints.left) ? x : cameraBarrierPoints.left;
-    cameraFocus.x = (x < cameraBarrierPoints.right) ? cameraFocus.x : cameraBarrierPoints.right;
-    cameraFocus.y = (y > cameraBarrierPoints.top) ? y : cameraBarrierPoints.top;
-    cameraFocus.y = (y < cameraBarrierPoints.bottom) ? cameraFocus.y : cameraBarrierPoints.bottom;
+    cameraFocus.x = (x > cameraBarrierPoints.left) ? (x - cameraBarrierPoints.left) : 0;
+    cameraFocus.x = (x < cameraBarrierPoints.right) ? cameraFocus.x : (cameraBarrierPoints.right - cameraBarrierPoints.left);
+    cameraFocus.y = (y > cameraBarrierPoints.top) ? (y - cameraBarrierPoints.top) : 0;
+    cameraFocus.y = (y < cameraBarrierPoints.bottom) ? cameraFocus.y : (cameraBarrierPoints.bottom - cameraBarrierPoints.top);
 
     this.state.cameraFocusPoint = cameraFocus;
     this.setState({
       cameraFocusPoint: this.state.cameraFocusPoint
     });
-    this.setVisibleMap();
   }
 
-  setVisibleMap() {
-    this.mapStartPoints = {
-      x: (this.state.cameraFocusPoint.x - this.screenDimensions.radius),
-      y: (this.state.cameraFocusPoint.y - this.screenDimensions.radius),
-    };
-    this.state.visibleTileMap = this.props.worldMap.slice(this.mapStartPoints.y, (this.mapStartPoints.y + this.screenDimensions.size)).map((row) => {
-      return row.slice(this.mapStartPoints.x, (this.mapStartPoints.x + this.screenDimensions.size));
-    });
-    this.setState({
-      visibleTileMap: this.state.visibleTileMap
-    });
-  }
 
   checkFrogCollision({x, y}) {
     let frogDimensions = {
@@ -235,10 +226,18 @@ export default class World extends React.Component {
     }
   }
 
+  getWorldStyle = () => {
+    return {
+      height: this.screenDimensions.y * GLOBAL.CELL_SIZE,
+      width: this.screenDimensions.x * GLOBAL.CELL_SIZE
+    }
+  };
+
   render() {
     return (
-      <div className="world-container">
-        <TileMap tileMap={this.state.visibleTileMap}/>
+      <div className="world-container" style={this.getWorldStyle()}>
+        <TileMap tileMap={this.props.worldMap}
+                 cameraPosition={this.state.cameraFocusPoint}/>
         <Frog player={this.state.player}
               pewpew={this.pewpew.bind(this)}
               setPlayerPosition={this.setPlayerPosition}/>

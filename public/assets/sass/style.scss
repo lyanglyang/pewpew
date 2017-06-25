@@ -8,12 +8,32 @@
     display: block;
   }
 }
+@import url('https://fonts.googleapis.com/css?family=Amaranth:400,700');
+
+body{
+  font-family: 'Amaranth', sans-serif;
+}
+body,html,#root{
+  height: 100%;
+}
+#root{
+  > div{
+    height: 100%;
+  }
+}
+.container{
+  width: 1280px;
+  margin: 0 auto;
+}
 .world-container {
   position: relative;
+  border: 20px solid #663399;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .tile-map {
-
+  position: absolute;
 }
 
 .tile-map-cell {
