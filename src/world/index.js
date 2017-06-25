@@ -20,6 +20,9 @@ const tileObject = {
   3: {
     rigid: true
   },
+  5: {
+    rigid: true
+  }
 };
 
 export default class World extends React.Component {
@@ -180,14 +183,20 @@ export default class World extends React.Component {
       let tileRow = this.props.worldMap[i];
       for (let j = 0; j < tileRow.length; j++) {
         let tileCell = tileRow[j];
+
+
         let tileCellObject = tileObject[tileCell];
+
         if (tileCellObject && tileCellObject.rigid) {
           let tileDimensions = {
-            x: i * GLOBAL.CELL_SIZE,
-            y: j * GLOBAL.CELL_SIZE,
+            x: (j) * GLOBAL.CELL_SIZE,
+            y: (i) * GLOBAL.CELL_SIZE,
             width: GLOBAL.CELL_SIZE,
             height: GLOBAL.CELL_SIZE
           };
+          if(tileCell === 5) {
+            console.log(1, 2, tileDimensions, frogDimensions)
+          }
           if (detectCollision(tileDimensions, frogDimensions)) {
             return true;
             break;
