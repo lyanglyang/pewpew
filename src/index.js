@@ -16,6 +16,7 @@ class Main extends React.Component {
     this.state = {
       gameOver: false,
       response: {},
+      scores: []
     }
   }
 
@@ -28,8 +29,8 @@ class Main extends React.Component {
     this.setState({response: {}, gameOver: false})
   };
 
-  closeGame = ()=>{
-    this.setState({gameOver: true});
+  closeGame = (scores)=>{
+    this.setState({gameOver: true, scores: scores});
   };
 
   render() {
@@ -37,7 +38,7 @@ class Main extends React.Component {
       return <Login setSession={this.setSession}/>
     }
     else if (this.state.gameOver){
-      return <GameOver clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
+      return <GameOver scores={this.state.scores} clearSession={this.clearSession} toggleGame={()=> this.setState({gameOver: !this.state.gameOver})}/>
     }
     else {
       return <App response={this.state.response}

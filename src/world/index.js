@@ -10,6 +10,8 @@ import {
   detectCollision
 } from '../utils/geometry';
 
+import Scoreboard from '../common/scoreboard';
+
 const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
 
@@ -35,7 +37,8 @@ export default class World extends React.Component {
           }
         },
         score: 0,
-        isActive: true
+        isActive: true,
+        rand: Math.floor(Math.random() * 3) + 1
       },
       opponents: {},
     };
@@ -71,7 +74,8 @@ export default class World extends React.Component {
       swdt: this.state.player.swordAction.swordDirection.top,
       swaa: this.state.player.swordAction.active,
       score: this.state.player.score,
-      isActive: this.state.player.isActive
+      isActive: this.state.player.isActive,
+      rand: this.state.player.rand,
     }
   };
 
@@ -96,7 +100,8 @@ export default class World extends React.Component {
       id: _data.id,
       score: _data.score,
       name: _data.name,
-      isActive: _data.isActive
+      isActive: _data.isActive,
+      rand: _data.rand,
     };
   };
 
@@ -121,7 +126,7 @@ export default class World extends React.Component {
         player = this.state.player;
         player.health -= 10;
         if (player.health <= 0) {
-          this.props.closeGame();
+          this.props.closeGame(this.getScores());
         }
         return;
       }
@@ -331,32 +336,35 @@ export default class World extends React.Component {
 
   render() {
     return (
-      <div className="world-container" style={this.getWorldStyle()}>
-        <TileMap tileMap={this.props.worldMap}
-                 cameraPosition={this.state.cameraFocusPoint}/>
-        <Frog player={this.state.player}
-              pewpew={this.pewpew.bind(this)}
-              setPlayerPosition={this.setPlayerPosition}/>
-        {
-          Object.keys(this.state.opponents).map((opponentKey, index) =>
-            <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
-                       index={index} opponent={this.state.opponents[opponentKey]}/>
-          )
-        }
-
-        <table>
-          <tbody>
-          {
-            this.getScores().map((score) => {
-              return (
-                <tr>
-                  <td>{score.owner}</td>
-                  <td>{score.value}</td>
-                </tr>)
-            })
-          }
-          </tbody>
-        </table>
+      <div>
+        <div className="container">
+          <div className="hud">
+            <div className="hud-column">User: {this.props.userName}</div>
+            <div className="hud-column text-center">
+              <h1 className="title">Pew Pew</h1>
+            </div>
+            <div className="hud-column text-center">
+              <span className="score">Your Score: {this.state.player.score}</span>
+              <button className="close-btn" onClick={() => this.props.closeGame(this.getScores())}>X</button>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="world-container" style={this.getWorldStyle()}>
+            <TileMap tileMap={this.props.worldMap}
+                     cameraPosition={this.state.cameraFocusPoint}/>
+            <Frog player={this.state.player}
+                  pewpew={this.pewpew.bind(this)}
+                  setPlayerPosition={this.setPlayerPosition}/>
+            {
+              Object.keys(this.state.opponents).map((opponentKey, index) =>
+                <Opponents key={index} cameraFocusPoint={this.state.cameraFocusPoint}
+                           index={index} opponent={this.state.opponents[opponentKey]}/>
+              )
+            }
+            <Scoreboard scores={this.getScores()}/>
+          </div>
+        </div>
       </div>
     )
   }

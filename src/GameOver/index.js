@@ -1,4 +1,5 @@
 import React from 'react';
+import Scoreboard from '../common/scoreboard';
 
 export default class GameOver extends React.Component {
 
@@ -20,7 +21,7 @@ export default class GameOver extends React.Component {
           Game Over
         </h1>
         <div className="score-container">
-          Score: 100
+          <Scoreboard scores={this.props.scores}/>
         </div>
         <div className="form-row"><button type="button" onClick={this.handleRestart} className="restart"> Restart </button></div>
         <div className="form-row"><button type="button" onClick={this.handleQuit} className="quit">Quit</button></div>

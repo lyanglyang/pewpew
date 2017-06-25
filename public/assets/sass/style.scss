@@ -134,14 +134,13 @@ html,#root{
   width: 120px;
   height: 120px;
   position: absolute;
-  background: green;
 }
 
 .snake {
-  width: 20px;
-  height: 20px;
+  width: 120px;
+  height: 120px;
   position: absolute;
-  background: red;
+  background-size: 30px 30px !important;
 }
 
 
