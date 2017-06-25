@@ -38,7 +38,7 @@ export default class Opponent extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
       top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
-      background: `url('/assets/images/cr-${this.props.opponent.rand || 1}.png')`,
+      background: `url('/assets/images/bullet-${this.props.opponent.rand || 1}.png')`,
       backgroundSize: `${height}px ${height}px`,
     }
   };

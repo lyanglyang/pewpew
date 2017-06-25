@@ -152,7 +152,7 @@ export default class Frog extends React.Component {
       width: (GLOBAL.CELL_SIZE / 4),
       left: (swordDirection['left']) * (GLOBAL.CELL_SIZE / 4),
       top: (swordDirection['top']) * (GLOBAL.CELL_SIZE / 4),
-      background: `url('/assets/images/cr-4.png')`,
+      background: `url('/assets/images/bullet-4.png')`,
       backgroundSize: `${height}px ${height}px`,
     }
   };
