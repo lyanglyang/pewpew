@@ -75,7 +75,12 @@ export default class World extends React.Component {
     this.setPlayerPosition(startingPlayerPosition);
   }
 
-  setInteractiveText(text) {
+  setInteractiveText(text, priority) {
+    let timeout = 1000;
+    if(priority) {
+      this.disableInteractiveText = false;
+      timeout = 3000;
+    }
     if(this.disableInteractiveText) {
       return;
     }
@@ -88,7 +93,7 @@ export default class World extends React.Component {
         interactiveText: ""
       });
       this.disableInteractiveText = false;
-    }, 1000);
+    }, timeout);
   }
 
   buildPlayerJson = () => {
@@ -144,7 +149,7 @@ export default class World extends React.Component {
         return;
       }
       if (player.health <= 0) {
-        this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.dead.length) + 0].replace("%s", player.name));
+        this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.dead.length) + 0].replace("%s", player.name), true);
         delete this.state.opponents[player.id];
       } else {
         this.state.opponents[player.id] = player;
@@ -172,6 +177,7 @@ export default class World extends React.Component {
       if (opponent) {
         opponent.health -= 10;
         if (opponent.health <= 0) {
+          this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * INTERACTIVE_TEXTS.underAttack.length) + 0].replace("%s", opponent.name), true);
           delete this.state.opponents[player.id];
         } else {
           this.state.opponents[player.id] = opponent;
