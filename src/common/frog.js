@@ -122,10 +122,6 @@ export default class Frog extends React.Component {
           this.movingDirection = 4;
           break;
 
-        case 32:
-          this.pewpew();
-          return;
-
         default:
           return;
       }
