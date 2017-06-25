@@ -1,6 +1,8 @@
 import React from 'react';
 import Scoreboard from '../common/scoreboard';
 
+import _ from 'lodash';
+
 export default class GameOver extends React.Component {
 
   handleRestart = ()=>{
@@ -15,10 +17,10 @@ export default class GameOver extends React.Component {
     return (
       <div className="login-container">
         <h1 className="title">
-          Pew Pew
+          Game Over
         </h1>
         <h1 className="title">
-          Game Over
+          Score: {_.find(this.props.scores, {owner: this.props.userName}).value}
         </h1>
         <div className="score-container">
           <Scoreboard scores={this.props.scores}/>
