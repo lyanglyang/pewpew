@@ -39,7 +39,7 @@ getAudioPermission.then(function (stream) {
 
     let voiceLevel = sum / freqByteData.length;
     if (voiceLevel > 30) {
-      console.log(voiceLevel);
+      // console.log(voiceLevel);
     }
   }, 200);
 
