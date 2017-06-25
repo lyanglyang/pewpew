@@ -38,7 +38,8 @@ export default class World extends React.Component {
             left: 0,
             top: 0
           }
-        }
+        },
+        score: 0
       },
 
       opponents: {},
@@ -82,7 +83,8 @@ export default class World extends React.Component {
       health: this.state.player.health,
       swdl: this.state.player.swordAction.swordDirection.left,
       swdt: this.state.player.swordAction.swordDirection.top,
-      swaa: this.state.player.swordAction.active
+      swaa: this.state.player.swordAction.active,
+      score: this.state.player.score
     }
   };
 
@@ -91,7 +93,6 @@ export default class World extends React.Component {
     data[1]['Value'].forEach((d) => {
       _data[d['Key']] = d['Value']
     });
-    console.log(_data, 999999)
     return {
       health: _data.health,
       position: {
@@ -105,7 +106,8 @@ export default class World extends React.Component {
           top: _data.swdt
         }
       },
-      id: _data.id
+      id: _data.id,
+      score: _data.score
     };
   };
 
@@ -136,15 +138,15 @@ export default class World extends React.Component {
       if (player.id === this.state.player.id) {
         player = this.state.player;
         player.health -= 5;
-        if(player.health <= 0) {
+        if (player.health <= 0) {
           alert("YOU ARE DEAD !!");
         }
         return;
       }
       let opponent = this.state.opponents[player.id];
-      if(opponent) {
+      if (opponent) {
         opponent.health -= 5;
-        if(opponent.health <= 0) {
+        if (opponent.health <= 0) {
           delete this.state.opponents[player.id];
         } else {
           this.state.opponents[player.id] = opponent;
@@ -154,7 +156,7 @@ export default class World extends React.Component {
         });
       }
     });
-    backand.on('player-use-sword', (data)=> {
+    backand.on('player-use-sword', (data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         return;
@@ -163,12 +165,14 @@ export default class World extends React.Component {
       this.setState({
         opponents: this.state.opponents
       });
-      if(player.swordAction.active) {
+      if (player && player.swordAction.active) {
         setTimeout(() => {
-          this.state.opponents[player.id]['swordAction']['active'] = false;
-          this.setState({
-            opponents: this.state.opponents
-          });
+          if (this.state.opponents[player.id]) {
+            this.state.opponents[player.id]['swordAction']['active'] = false;
+            this.setState({
+              opponents: this.state.opponents
+            });
+          }
         }, 100);
       }
 
@@ -281,8 +285,7 @@ export default class World extends React.Component {
       player: this.state.player
     });
 
-    let _player  = this.buildPlayerJson();
-    console.log(this.state.player.swordAction,this.buildPlayerJson(),_player,1111)
+    let _player = this.buildPlayerJson();
 
     _player.swaa = true;
     axios.post('https://api.backand.com/1/function/general/game', {
@@ -312,6 +315,14 @@ export default class World extends React.Component {
             id: opponentId
           }
         });
+        this.state.player.score += 1;
+        this.setState({
+          player: this.state.player
+        });
+        axios.post('https://api.backand.com/1/function/general/game', {
+          eventName: 'player-update',
+          player: this.buildPlayerJson()
+        });
         return false;
       }
     }
@@ -322,6 +333,22 @@ export default class World extends React.Component {
       height: this.screenDimensions.y * GLOBAL.CELL_SIZE,
       width: this.screenDimensions.x * GLOBAL.CELL_SIZE
     }
+  };
+
+  getScores = () => {
+    let scores = [];
+    scores.push({
+      owner: this.state.player.name,
+      value: this.state.player.score
+    });
+    Object.keys(this.state.opponents).map((opponentKey, index) => {
+      let opponent = this.state.opponents[opponentKey];
+      scores.push({
+        owner: opponent.name,
+        value: opponent.score
+      });
+    });
+    return scores;
   };
 
   render() {
@@ -338,6 +365,19 @@ export default class World extends React.Component {
                        index={index} opponent={this.state.opponents[opponentKey]}/>
           )
         }
+        <table>
+          <tbody>
+          {
+            this.getScores().map((score) => {
+              return (
+                <tr>
+                  <td>{score.owner}</td>
+                  <td>{score.value}</td>
+                </tr>)
+            })
+          }
+          </tbody>
+        </table>
       </div>
     )
   }
