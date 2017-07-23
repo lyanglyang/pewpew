@@ -4,7 +4,7 @@ import React from 'react';
 import controlsHOC from '../common/controlsHOC';
 
 // backand
-import axios from 'axios';
+// import axios from 'axios';
 import backand from '../common/Backand';
 
 class Login extends React.Component {
@@ -35,7 +35,7 @@ class Login extends React.Component {
   };
 
   connectBackand = (name) => {
-    const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
+    // const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
     backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
       .then(res => {
         this.props.setSession(res.data);

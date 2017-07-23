@@ -11,7 +11,7 @@ import './index.css';
 window.socket = io('http://localhost:5000');
 
 var ua = navigator.userAgent.toLowerCase();
-if (ua.indexOf('safari') != -1) {
+if (ua.indexOf('safari') !== -1) {
   if (ua.indexOf('chrome') > -1) {
   } else {
     window.alert("Please use chrome.")

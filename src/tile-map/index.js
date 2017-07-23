@@ -4,9 +4,9 @@ import GLOBAL from '../constants';
 
 export default class TileMap extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
+  // constructor(props, context) {
+  //   super(props, context);
+  // }
 
   getStyle = ()=> {
     return {

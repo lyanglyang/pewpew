@@ -73,11 +73,12 @@ export default class World extends React.Component {
     let startingPlayerPosition = POSSIBLE_SPAWN_POINTS[Math.floor(Math.random() * 5) + 0];
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
+    let {player} = this.state;
     setInterval(()=> {
-      if(this.state.player.health <= 100) {
-        this.state.player.health += 4;
-        if(this.state.player.health > 100) {
-          this.state.player.health = 100;
+      if(player.health <= 100) {
+        player.health += 4;
+        if(player.health > 100) {
+          player.health = 100;
         }
         this.setState({
           player: this.state.player
@@ -155,18 +156,19 @@ export default class World extends React.Component {
   setBackandEvents = () => {
     backand.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
+      let {opponents} = this.state;
 
       if (player.id === this.state.player.id) {
         return;
       }
       if (player.health <= 0) {
         this.setInteractiveText(INTERACTIVE_TEXTS.dead[Math.floor(Math.random() * (INTERACTIVE_TEXTS.dead.length - 1)) + 0].replace("%s", player.name), true);
-        delete this.state.opponents[player.id];
+        delete opponents[player.id];
       } else {
-        this.state.opponents[player.id] = player;
+        opponents[player.id] = player;
       }
       this.setState({
-        opponents: this.state.opponents
+        opponents: opponents
       });
     });
     backand.on('player-hit', (data) => {
