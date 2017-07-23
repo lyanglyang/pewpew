@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import Login from './Login';
 import GameOver from './GameOver';
-import _ from 'lodash';
 import backand from './common/Backand';
-
 import registerServiceWorker from './registerServiceWorker';
+import io from 'socket.io-client';
 import './index.css';
+
+window.socket = io('http://localhost:5000');
 
 var ua = navigator.userAgent.toLowerCase();
 if (ua.indexOf('safari') != -1) {
