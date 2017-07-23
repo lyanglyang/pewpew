@@ -4,6 +4,7 @@ import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
 import backand from '../common/Backand';
+import server from '../common/server';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
 import {
@@ -246,10 +247,12 @@ export default class World extends React.Component {
     this.setState({
       player: this.state.player
     });
+    let playerJson = this.buildPlayerJson();
     axios.post('https://api.backand.com/1/function/general/game', {
       eventName: 'player-update',
-      player: this.buildPlayerJson()
+      player: playerJson
     });
+    server.updatePlayer(playerJson)
   }
 
   setScreenDimensions({x, y}) {
@@ -340,6 +343,8 @@ export default class World extends React.Component {
       player: _player
     });
 
+    server.useSword({player: _player});
+
     setTimeout(() => {
       this.state.player.swordAction.active = false;
       this.setState({
@@ -362,16 +367,19 @@ export default class World extends React.Component {
             id: opponentId
           }
         });
+        server.hitOpponent({player: {id: opponentId}});
         this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length -1)) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
         this.setState({
           player: this.state.player
         });
+
+        let playerJson = this.buildPlayerJson();
         axios.post('https://api.backand.com/1/function/general/game', {
           eventName: 'player-update',
-          player: this.buildPlayerJson()
+          player: playerJson
         });
-        return false;
+        server.updatePlayer(playerJson)
       }
     }
   }

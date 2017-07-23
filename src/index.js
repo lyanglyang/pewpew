@@ -5,10 +5,7 @@ import Login from './Login';
 import GameOver from './GameOver';
 import backand from './common/Backand';
 import registerServiceWorker from './registerServiceWorker';
-import io from 'socket.io-client';
 import './index.css';
-
-window.socket = io('http://localhost:5000');
 
 var ua = navigator.userAgent.toLowerCase();
 if (ua.indexOf('safari') !== -1) {
