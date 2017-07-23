@@ -6,17 +6,17 @@ let server = {
 
   updatePlayer: function (_player) {
     console.log(_player);
-    socket.emit('player-update');
+    socket.emit('player-update', JSON.stringify(_player));
   },
 
   hitOpponent: function (_player) {
     console.log(_player);
-    socket.emit('player-hit');
+    socket.emit('player-hit', JSON.stringify(_player));
   },
 
   useSword: function (_player) {
     console.log(_player);
-    socket.emit('player-use-sword');
+    socket.emit('player-use-sword', JSON.stringify(_player));
   }
 };
 
