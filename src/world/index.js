@@ -40,7 +40,7 @@ export default class World extends React.Component {
       interactiveText: '',
       cameraFocusPoint: {},
       player: {
-        id: uuidv1(),
+        id: sessionStorage.getItem('pewpewPlayerId'),
         name: props.userName,
         relativePosition: {},
         position: {},
@@ -58,7 +58,7 @@ export default class World extends React.Component {
       },
       opponents: {},
     };
-
+console.log(this.state.player)
     this.screenDimensions = {};
     this.cameraBarrierPoints = {};
 
@@ -75,10 +75,10 @@ export default class World extends React.Component {
     this.setCameraFocus(startingPlayerPosition);
     this.setPlayerPosition(startingPlayerPosition);
     let {player} = this.state;
-    setInterval(()=> {
-      if(player.health <= 100) {
+    setInterval(() => {
+      if (player.health <= 100) {
         player.health += 4;
-        if(player.health > 100) {
+        if (player.health > 100) {
           player.health = 100;
         }
         this.setState({
@@ -110,7 +110,6 @@ export default class World extends React.Component {
   }
 
   buildPlayerJson = () => {
-
     return {
       x: this.state.player.position.x,
       y: this.state.player.position.y,
@@ -129,9 +128,17 @@ export default class World extends React.Component {
 
   sanitizePlayerJsonData = (data) => {
     let _data = {};
-    data[1]['Value'].forEach((d) => {
-      _data[d['Key']] = d['Value']
-    });
+
+    if(data[1]&&data[1]['value']){
+      data[1]['Value'].forEach((d) => {
+        _data[d['Key']] = d['Value']
+      });
+    }else if(typeof data==="object"){
+      _data = data;
+    }else{
+      _data = JSON.parse(data);
+    }
+
     return {
       health: _data.health,
       position: {
@@ -155,7 +162,7 @@ export default class World extends React.Component {
   };
 
   setBackandEvents = () => {
-    backand.on('player-update', (data) => {
+    server.handlePlayerUpdate((data) => {
       let player = this.sanitizePlayerJsonData(data);
       let {opponents} = this.state;
 
@@ -172,7 +179,7 @@ export default class World extends React.Component {
         opponents: opponents
       });
     });
-    backand.on('player-hit', (data) => {
+    server.handlePlayerHit((data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         player = this.state.player;
@@ -201,7 +208,7 @@ export default class World extends React.Component {
         });
       }
     });
-    backand.on('player-use-sword', (data) => {
+    server.handlePlayerUseSword((data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         return;
@@ -221,6 +228,8 @@ export default class World extends React.Component {
         }, 100);
       }
     });
+    // backand.on('player-hit',);
+    // backand.on('player-use-sword',);
   };
 
   setPlayerPosition({x, y}) {
@@ -248,10 +257,10 @@ export default class World extends React.Component {
       player: this.state.player
     });
     let playerJson = this.buildPlayerJson();
-    axios.post('https://api.backand.com/1/function/general/game', {
-      eventName: 'player-update',
-      player: playerJson
-    });
+    // axios.post('https://api.backand.com/1/function/general/game', {
+    //   eventName: 'player-update',
+    //   player: playerJson
+    // });
     server.updatePlayer(playerJson)
   }
 
@@ -368,7 +377,7 @@ export default class World extends React.Component {
           }
         });
         server.hitOpponent({player: {id: opponentId}});
-        this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length -1)) + 0].replace("%s", this.state.player.name));
+        this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length - 1)) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
         this.setState({
           player: this.state.player
