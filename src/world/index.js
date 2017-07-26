@@ -3,10 +3,8 @@ import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
-import backand from '../common/Backand';
 import server from '../common/server';
 import axios from 'axios';
-import uuidv1 from 'uuid/v1';
 import {
   detectCollision
 } from '../utils/geometry';
@@ -66,10 +64,11 @@ console.log(this.state.player)
     this.setScreenDimensions = this.setScreenDimensions.bind(this);
     this.setPlayerPosition = this.setPlayerPosition.bind(this);
     this.checkFrogCollision = this.checkFrogCollision.bind(this);
+    this.setServerEvents = this.setServerEvents.bind(this);
   }
 
   componentDidMount() {
-    this.setBackandEvents();
+    this.setServerEvents();
     this.setScreenDimensions({x: 9, y: 4});
     let startingPlayerPosition = POSSIBLE_SPAWN_POINTS[Math.floor(Math.random() * 5) + 0];
     this.setCameraFocus(startingPlayerPosition);
@@ -161,7 +160,7 @@ console.log(this.state.player)
     };
   };
 
-  setBackandEvents = () => {
+  setServerEvents = () => {
     server.handlePlayerUpdate((data) => {
       let player = this.sanitizePlayerJsonData(data);
       let {opponents} = this.state;
@@ -230,8 +229,6 @@ console.log(this.state.player)
         }, 100);
       }
     });
-    // backand.on('player-hit',);
-    // backand.on('player-use-sword',);
   };
 
   setPlayerPosition({x, y}) {
@@ -259,10 +256,6 @@ console.log(this.state.player)
       player: this.state.player
     });
     let playerJson = this.buildPlayerJson();
-    // axios.post('https://api.backand.com/1/function/general/game', {
-    //   eventName: 'player-update',
-    //   player: playerJson
-    // });
     server.updatePlayer(playerJson)
   }
 
@@ -349,10 +342,6 @@ console.log(this.state.player)
     let _player = this.buildPlayerJson();
 
     _player.swaa = true;
-    axios.post('https://api.backand.com/1/function/general/game', {
-      eventName: 'player-use-sword',
-      player: _player
-    });
 
     server.useSword({player: _player});
 
@@ -372,12 +361,6 @@ console.log(this.state.player)
         height: (GLOBAL.CELL_SIZE / 4)
       };
       if (detectCollision(tileDimensions, frogDimensions)) {
-        axios.post('https://api.backand.com/1/function/general/game', {
-          eventName: 'player-hit',
-          player: {
-            id: opponentId
-          }
-        });
         server.hitOpponent({player: {id: opponentId}});
         this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length - 1)) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
@@ -386,10 +369,6 @@ console.log(this.state.player)
         });
 
         let playerJson = this.buildPlayerJson();
-        axios.post('https://api.backand.com/1/function/general/game', {
-          eventName: 'player-update',
-          player: playerJson
-        });
         server.updatePlayer(playerJson)
       }
     }
