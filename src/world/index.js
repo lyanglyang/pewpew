@@ -40,7 +40,7 @@ export default class World extends React.Component {
       interactiveText: '',
       cameraFocusPoint: {},
       player: {
-        id: sessionStorage.getItem('pewpewPlayerId'),
+        id: JSON.parse(localStorage.getItem('user')).id,
         name: props.userName,
         relativePosition: {},
         position: {},
@@ -179,6 +179,7 @@ console.log(this.state.player)
         opponents: opponents
       });
     });
+
     server.handlePlayerHit((data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
@@ -208,6 +209,7 @@ console.log(this.state.player)
         });
       }
     });
+
     server.handlePlayerUseSword((data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {

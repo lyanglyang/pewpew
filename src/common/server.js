@@ -2,13 +2,17 @@ import io from 'socket.io-client';
 
 let socket = io('http://localhost:5000');
 
+//remove this global variable; just for development debugging
+window.socket = socket;
+
+socket.on("joined-successfully", (data) => {
+  localStorage.setItem('user', JSON.stringify(data));
+});
+
 let server = {
 
   signUp: function (name) {
-    socket.emit('player-join', name)
-    socket.on('player-join', (data)=>{
-      sessionStorage.setItem('pewpewPlayerId', data);
-    });
+    socket.emit('signup', name);
   },
 
   updatePlayer: function (_player) {
@@ -24,15 +28,15 @@ let server = {
     socket.emit('player-use-sword', JSON.stringify(_player));
   },
 
-  handlePlayerUseSword: function(eventHandler){
+  handlePlayerUseSword: function (eventHandler) {
     socket.on('player-use-sword', eventHandler)
   },
 
-  handlePlayerUpdate: function(eventHandler){
+  handlePlayerUpdate: function (eventHandler) {
     socket.on('player-update', eventHandler)
   },
 
-  handlePlayerHit: function(eventHandler){
+  handlePlayerHit: function (eventHandler) {
     socket.on('player-hit', eventHandler)
   },
 
