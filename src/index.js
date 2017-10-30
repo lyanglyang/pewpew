@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Login from './Login';
-import GameOver from './GameOver';
-import backand from './common/Backand';
+import Login from './components/Login';
+import GameOver from './components/GameOver';
+import backand from './components/common/Backand';
 import registerServiceWorker from './registerServiceWorker';
 import io from 'socket.io-client';
 import './index.css';

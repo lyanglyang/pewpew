@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import World from './world';
+import World from './components/world';
 //constants
 import GLOBAL from './constants';
 
