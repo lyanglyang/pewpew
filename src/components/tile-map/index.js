@@ -1,6 +1,6 @@
 import React from 'react';
 import TileMapRow from './tile-map-row';
-import GLOBAL from '../constants';
+import GLOBAL from '../../constants/index';
 
 export default class TileMap extends React.Component {
 

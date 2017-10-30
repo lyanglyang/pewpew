@@ -1,7 +1,7 @@
 import React from 'react';
-import GLOBAL from '../constants';
-import ERRORS from '../constants/errors';
-import MESSAGES from '../constants/messages';
+import GLOBAL from '../../constants/index';
+import ERRORS from '../../constants/errors';
+import MESSAGES from '../../constants/messages';
 import { Line } from 'rc-progress';
 
 export default class Frog extends React.Component {

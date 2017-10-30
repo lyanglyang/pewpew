@@ -1,14 +1,14 @@
 import React from 'react';
-import TileMap from '../tile-map';
+import TileMap from '../tile-map/index';
 import Frog from '../common/frog';
-import Opponents from '../opponents';
-import GLOBAL from '../constants';
+import Opponents from '../opponents/index';
+import GLOBAL from '../../constants/index';
 import backand from '../common/Backand';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
 import {
   detectCollision
-} from '../utils/geometry';
+} from '../../utils/geometry';
 
 import Scoreboard from '../common/scoreboard';
 

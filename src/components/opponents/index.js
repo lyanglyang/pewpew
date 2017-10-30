@@ -1,7 +1,7 @@
 import React from 'react';
 
 //constants
-import GLOBAL from '../constants';
+import GLOBAL from '../../constants/index';
 import { Line } from 'rc-progress';
 
 export default class Opponent extends React.Component {
