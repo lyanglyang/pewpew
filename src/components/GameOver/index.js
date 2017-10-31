@@ -1,7 +1,6 @@
+import _ from 'lodash';
 import React from 'react';
 import Scoreboard from '../common/scoreboard';
-
-import _ from 'lodash';
 
 export default class GameOver extends React.Component {
 
@@ -25,7 +24,9 @@ export default class GameOver extends React.Component {
         <div className="score-container">
           <Scoreboard scores={this.props.scores}/>
         </div>
-        <div className="form-row"><button type="button" onClick={this.handleQuit} className="quit">Quit</button></div>
+        <div className="form-row">
+          <button type="button" onClick={this.handleQuit} className="quit">Quit</button>
+        </div>
       </div>)
   }
 }

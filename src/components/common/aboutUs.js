@@ -19,7 +19,6 @@ export default class Controls extends React.Component {
             <li><a href="https://www.linkedin.com/in/joshianujo7/" target="_blank"
                    rel="noopener noreferrer"><h3>Anuj</h3></a></li>
           </ul>
-
           <button type="button" className="back-btn" onClick={this.props.goBack}> Back</button>
         </div>
       </div>)
