@@ -27,7 +27,6 @@ export default function controlsHOC(WrappedComponent){
 
       if (this.state.aboutUs)
         return <AboutUs goBack={this.handleAboutUs}/>;
-
       return <WrappedComponent goToControls={this.handleControls} goToAboutUs={this.handleAboutUs} {...this.props}/>
     }
   }
