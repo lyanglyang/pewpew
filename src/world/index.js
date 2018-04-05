@@ -330,10 +330,7 @@ export default class World extends React.Component {
     let _player = this.buildPlayerJson();
 
     _player.swaa = true;
-    // axios.post('https://api.backand.com/1/function/general/game', {
-    //   eventName: 'player-use-sword',
-    //   player: _player
-    // });
+
     serverSocket.emit('player-use-sword', _player);
 
     setTimeout(() => {
@@ -352,12 +349,6 @@ export default class World extends React.Component {
         height: (GLOBAL.CELL_SIZE / 4)
       };
       if (detectCollision(tileDimensions, frogDimensions)) {
-        // axios.post('https://api.backand.com/1/function/general/game', {
-        //   eventName: 'player-hit',
-        //   player: {
-        //     id: opponentId
-        //   }
-        // });
 
         serverSocket.emit('player-hit', {id: opponentId})
         this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length -1)) + 0].replace("%s", this.state.player.name));
@@ -365,10 +356,7 @@ export default class World extends React.Component {
         this.setState({
           player: this.state.player
         });
-        axios.post('https://api.backand.com/1/function/general/game', {
-          eventName: 'player-update',
-          player: this.buildPlayerJson()
-        });
+        serverSocket.emit('player-update', this.buildPlayerJson());
         return false;
       }
     }
