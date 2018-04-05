@@ -8,7 +8,7 @@ class Login extends React.Component {
   constructor(){
     super();
     this.state = {
-      defaultName: 'Player 1'
+      defaultName: localStorage.getItem('name') || 'Player 1'
     }
   }
 
@@ -31,6 +31,7 @@ class Login extends React.Component {
   };
 
   connectBackand = (name) => {
+    localStorage.setItem('name', name);
     this.props.setSession({firstName: name, access_token: 'test123'});
     // const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
     // backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
