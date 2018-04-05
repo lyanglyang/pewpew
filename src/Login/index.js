@@ -35,14 +35,15 @@ class Login extends React.Component {
   };
 
   connectBackand = (name) => {
-    const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
-    backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
-      .then(res => {
-        this.props.setSession(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.setSession({firstName: name, access_token: 'test123'});
+    // const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
+    // backand.signup(`${name}`, "", `user+${new Date().getTime()}@reactriot.com`, "test123", "test123", {})
+    //   .then(res => {
+    //     this.props.setSession(res.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   };
 
   render() {

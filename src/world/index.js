@@ -11,6 +11,7 @@ import {
 } from '../utils/geometry';
 
 import Scoreboard from '../common/scoreboard';
+import serverSocket from '../common/serverSocket';
 
 const ANONYMOUS_TOKEN = 'fb44c3c7-d0ca-40a6-81d1-5bd6484af3be';
 axios.defaults.headers.common['AnonymousToken'] = ANONYMOUS_TOKEN;
@@ -126,10 +127,10 @@ export default class World extends React.Component {
   };
 
   sanitizePlayerJsonData = (data) => {
-    let _data = {};
-    data[1]['Value'].forEach((d) => {
-      _data[d['Key']] = d['Value']
-    });
+    let _data = data;
+    // data[1]['Value'].forEach((d) => {
+    //   _data[d['Key']] = d['Value']
+    // });
     return {
       health: _data.health,
       position: {
@@ -153,9 +154,8 @@ export default class World extends React.Component {
   };
 
   setBackandEvents = () => {
-    backand.on('player-update', (data) => {
+    serverSocket.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
-
       if (player.id === this.state.player.id) {
         return;
       }
@@ -169,7 +169,7 @@ export default class World extends React.Component {
         opponents: this.state.opponents
       });
     });
-    backand.on('player-hit', (data) => {
+    serverSocket.on('player-hit', (data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         player = this.state.player;
@@ -198,7 +198,7 @@ export default class World extends React.Component {
         });
       }
     });
-    backand.on('player-use-sword', (data) => {
+    serverSocket.on('player-use-sword', (data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
         return;
@@ -244,10 +244,7 @@ export default class World extends React.Component {
     this.setState({
       player: this.state.player
     });
-    axios.post('https://api.backand.com/1/function/general/game', {
-      eventName: 'player-update',
-      player: this.buildPlayerJson()
-    });
+    serverSocket.emit('player-update', this.buildPlayerJson());
   }
 
   setScreenDimensions({x, y}) {
@@ -333,10 +330,11 @@ export default class World extends React.Component {
     let _player = this.buildPlayerJson();
 
     _player.swaa = true;
-    axios.post('https://api.backand.com/1/function/general/game', {
-      eventName: 'player-use-sword',
-      player: _player
-    });
+    // axios.post('https://api.backand.com/1/function/general/game', {
+    //   eventName: 'player-use-sword',
+    //   player: _player
+    // });
+    serverSocket.emit('player-use-sword', _player);
 
     setTimeout(() => {
       this.state.player.swordAction.active = false;
@@ -354,12 +352,14 @@ export default class World extends React.Component {
         height: (GLOBAL.CELL_SIZE / 4)
       };
       if (detectCollision(tileDimensions, frogDimensions)) {
-        axios.post('https://api.backand.com/1/function/general/game', {
-          eventName: 'player-hit',
-          player: {
-            id: opponentId
-          }
-        });
+        // axios.post('https://api.backand.com/1/function/general/game', {
+        //   eventName: 'player-hit',
+        //   player: {
+        //     id: opponentId
+        //   }
+        // });
+
+        serverSocket.emit('player-hit', {id: opponentId})
         this.setInteractiveText(INTERACTIVE_TEXTS.damageDealt[Math.floor(Math.random() * (INTERACTIVE_TEXTS.damageDealt.length -1)) + 0].replace("%s", this.state.player.name));
         this.state.player.score += 1;
         this.setState({
