@@ -15,20 +15,20 @@ app.get('/', function (req, res) {
   res.sendfile('index.html');
 });
 
+function playerUpdateHandler(player) {
+  io.emit(PLAYER_UPDATE, player);
+}
+
+function playerHitHandler(player) {
+  io.emit(PLAYER_HIT, player);
+}
+
+function playerUseSwordHandler(player) {
+  io.emit(PLAYER_USE_SWORD, player);
+}
+
 //Whenever someone connects this gets executed
 io.on('connection', function (socket) {
-  console.log('A user connected');
-  function playerUpdateHandler(player) {
-    io.emit(PLAYER_UPDATE, player);
-  }
-
-  function playerHitHandler(player){
-console.log(player)
-  }
-
-  function playerUseSwordHandler(player){
-
-  }
 
   socket.on(PLAYER_UPDATE, playerUpdateHandler);
   socket.on(PLAYER_HIT, playerHitHandler);

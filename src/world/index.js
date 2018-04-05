@@ -3,7 +3,6 @@ import TileMap from '../tile-map';
 import Frog from '../common/frog';
 import Opponents from '../opponents';
 import GLOBAL from '../constants';
-import backand from '../common/Backand';
 import axios from 'axios';
 import uuidv1 from 'uuid/v1';
 import {
@@ -69,7 +68,7 @@ export default class World extends React.Component {
   }
 
   componentDidMount() {
-    this.setBackandEvents();
+    this.setBackEndEvents();
     this.setScreenDimensions({x: 9, y: 4});
     let startingPlayerPosition = POSSIBLE_SPAWN_POINTS[Math.floor(Math.random() * 5) + 0];
     this.setCameraFocus(startingPlayerPosition);
@@ -128,9 +127,6 @@ export default class World extends React.Component {
 
   sanitizePlayerJsonData = (data) => {
     let _data = data;
-    // data[1]['Value'].forEach((d) => {
-    //   _data[d['Key']] = d['Value']
-    // });
     return {
       health: _data.health,
       position: {
@@ -153,7 +149,7 @@ export default class World extends React.Component {
     };
   };
 
-  setBackandEvents = () => {
+  setBackEndEvents = () => {
     serverSocket.on('player-update', (data) => {
       let player = this.sanitizePlayerJsonData(data);
       if (player.id === this.state.player.id) {
