@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import Login from './Login';
 import GameOver from './GameOver';
-import _ from 'lodash';
 import backand from './common/Backand';
 
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 var ua = navigator.userAgent.toLowerCase();
-if (ua.indexOf('safari') != -1) {
+if (ua.indexOf('safari') !== -1) {
   if (ua.indexOf('chrome') > -1) {
   } else {
     window.alert("Please use chrome.")

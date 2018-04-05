@@ -6,6 +6,7 @@ export default class TileMap extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this.getStyle = this.getStyle.bind(this);
   }
 
   getStyle = ()=> {

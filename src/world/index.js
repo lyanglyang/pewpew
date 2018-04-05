@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import TileMap from '../tile-map';
 import Frog from '../common/frog';

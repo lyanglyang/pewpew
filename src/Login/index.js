@@ -3,10 +3,6 @@ import React from 'react';
 //hoc
 import controlsHOC from '../common/controlsHOC';
 
-// backand
-import axios from 'axios';
-import backand from '../common/Backand';
-
 class Login extends React.Component {
 
   constructor(){
