@@ -1,4 +1,4 @@
 /* global io */
 
-var serverSocket = io('http://localhost:8000');
-export  default serverSocket;
+var serverSocket = io('https://pew-pew-server.herokuapp.com/');
+export default serverSocket;
